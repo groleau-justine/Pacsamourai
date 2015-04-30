@@ -14,14 +14,14 @@ namespace PAC_SAMURAI
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class Pacsamourai : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         Map useMap;
 
-        public Game1()
+        public Pacsamourai()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -51,6 +51,10 @@ namespace PAC_SAMURAI
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            graphics.PreferredBackBufferWidth = 1600;
+            graphics.PreferredBackBufferHeight = 900;
+            graphics.ApplyChanges();
+
             // Read the file and put it in useMap
             useMap.loadMap();
         }

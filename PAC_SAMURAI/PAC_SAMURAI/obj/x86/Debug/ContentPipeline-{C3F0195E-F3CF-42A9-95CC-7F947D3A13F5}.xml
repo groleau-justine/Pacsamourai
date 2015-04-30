@@ -8,10 +8,10 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\Epulapp\Documents\PAC_SAMURAI\PAC_SAMURAI\PAC_SAMURAIContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Epulapp\Documents\PAC_SAMURAI\PAC_SAMURAI\PAC_SAMURAI\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Epulapp\Documents\PAC_SAMURAI\PAC_SAMURAI\PAC_SAMURAI\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Epulapp\Documents\PAC_SAMURAI\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAIContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

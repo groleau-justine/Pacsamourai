@@ -7,7 +7,7 @@ namespace PAC_SAMURAI
     {
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            using (Pacsamourai game = new Pacsamourai())
             {
                 game.Run();
             }
