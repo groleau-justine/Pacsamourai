@@ -16,10 +16,14 @@ namespace PAC_SAMURAI
     /// </summary>
     public class Pacsamourai : Microsoft.Xna.Framework.Game
     {
+        const int tailleWidth = 32;
+        const int tailleHeight = 32;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         Map useMap;
+        Objet mur;
 
         public Pacsamourai()
         {
@@ -56,6 +60,7 @@ namespace PAC_SAMURAI
             graphics.ApplyChanges();
 
             // Read the file and put it in useMap
+            mur = new Objet(Content.Load<Texture2D>("mur01"));
             useMap.loadMap();
         }
 
@@ -90,10 +95,25 @@ namespace PAC_SAMURAI
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-            useMap.showMap();
+            spriteBatch.Begin();
+
+            for (int x = 0; x < useMap.MaxMapX; x++)
+            {
+                for (int y = 0; y < useMap.MaxMapY; y++)
+                {
+                    Vector2 coord = new Vector2(y * tailleWidth, x * tailleHeight);
+
+                    if (useMap.MapGame[x, y] == 0)
+                        spriteBatch.Draw(mur.Texture, coord, Color.White);
+                    else if (useMap.MapGame[x, y] == 1)
+                        spriteBatch.Draw(mur.Texture, coord, Color.Black);
+                }
+            }
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

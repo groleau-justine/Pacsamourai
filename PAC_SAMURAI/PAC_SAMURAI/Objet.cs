@@ -8,9 +8,6 @@ namespace PAC_SAMURAI
 {
     class Objet
     {
-        const int tailleWidth = 32;
-        const int tailleHeight = 32;
-
         private Texture2D texture;
 
         public Objet(Texture2D texture)

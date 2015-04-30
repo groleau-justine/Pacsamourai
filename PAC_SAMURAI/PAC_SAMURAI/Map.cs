@@ -9,25 +9,13 @@ namespace PAC_SAMURAI
 {
     public class Map
     {
-        const int tailleWidth = 32;
-        const int tailleHeight = 32;
-
         private int level;
         private String nameLevel;
 
         private int maxMapX;
         private int maxMapY;
 
-        private int[,] map;
-
-        private Objet mur;
-
-        private Objet pacSamourai;
-
-        private Objet fantome1;
-        private Objet fantome2;
-        private Objet fantome3;
-        private Objet fantome4;
+        private int[,] mapGame;
 
         public Map(int level)
         {
@@ -59,16 +47,14 @@ namespace PAC_SAMURAI
             set { maxMapY = value; }
         }
 
-        public int[,] Map
+        public int[,] MapGame
         {
-            get { return map; }
-            set { map = value; }
+            get { return mapGame; }
+            set { mapGame = value; }
         }
 
         public void loadMap()
         {
-            Boolean isMur = false, isPacsamourai = false, isFantome1 = false, isFantome2 = false, isFantome3 = false, isFantome4 = false;
-
             List<int[]> lignes = new List<int[]>();
             using (StreamReader reader = new StreamReader("Content/maps/"+ nameLevel + ".txt"))
             {
@@ -88,22 +74,13 @@ namespace PAC_SAMURAI
                 }
                 maxMapX = lignes.Count;
 
-                map = new int[maxMapX, maxMapY];
+                mapGame = new int[maxMapX, maxMapY];
 
                 for (int x = 0; x < maxMapX; x++)
                 {
                     for (int y = 0; y < maxMapY; y++)
                     {
-                        map[x, y] = lignes[x][y];
-
-                        if (map[x, y] == 0 && !isMur)
-                        {
-                            mur = new Objet(Content.Load<Texture2D>("mur01"));
-                            isMur = true;
-                        }
-                            
-                            
-
+                        mapGame[x, y] = lignes[x][y];
                     }
                 }
             }
@@ -112,16 +89,6 @@ namespace PAC_SAMURAI
         public void showMap()
         {
 
-            for (int x = 0; x < maxMapX; x++)
-            {
-                for (int y = 0; y < maxMapY; y++)
-                {
-                    if (map[x, y] == 0)
-                        
-                    else if (map[x, y] == 1)
-
-                }
-            }
         }
     }
 }
