@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,14 +8,21 @@ using System.Text;
 
 namespace PAC_SAMURAI
 {
+    //Classe contenant les méthodes afin de créer et d'afficher la MAP
     public class Map
     {
+        //Tailles des tiles de la MAP
+        const int tailleWidth = 32;
+        const int tailleHeight = 32;
+
         private int level;
         private String nameLevel;
 
+        //Tailles de la MAP
         private int maxMapX;
         private int maxMapY;
 
+        //Données de la MAP
         private int[,] mapGame;
 
         public Map(int level)
@@ -53,9 +61,11 @@ namespace PAC_SAMURAI
             set { mapGame = value; }
         }
 
+        //Charger les données du fichier de la MAP dans le tableau mapGame
         public void loadMap()
         {
             List<int[]> lignes = new List<int[]>();
+            //Lecture du fichier de la MAP et enregistrement des infos dans le tableau mapGame
             using (StreamReader reader = new StreamReader("Content/maps/"+ nameLevel + ".txt"))
             {
                 string ligne;
@@ -63,6 +73,8 @@ namespace PAC_SAMURAI
                 {
                     string[] strings = ligne.Split(' ');
                     int[] nombres = new int[strings.Length];
+
+                    //Taille (colonnes) de la MAP
                     maxMapY = strings.Length;
                     for (int i = 0; i < maxMapY; i++)
                     {
@@ -72,10 +84,13 @@ namespace PAC_SAMURAI
 
                     lignes.Add(nombres);
                 }
+
+                //Taille (lignes) de la MAP
                 maxMapX = lignes.Count;
 
                 mapGame = new int[maxMapX, maxMapY];
 
+                //Création du tableau mapGame
                 for (int x = 0; x < maxMapX; x++)
                 {
                     for (int y = 0; y < maxMapY; y++)
@@ -86,9 +101,26 @@ namespace PAC_SAMURAI
             }
         }
 
-        public void showMap()
+        //Afficher la MAP d'après le fichier .txt chargée précédemment
+        public void showMap(SpriteBatch spriteBatch, Objet mur)
         {
+            spriteBatch.Begin();
 
+            //Chargement des textures de la MAP
+            for (int x = 0; x < MaxMapX; x++)
+            {
+                for (int y = 0; y < MaxMapY; y++)
+                {
+                    Vector2 coord = new Vector2(y * tailleWidth, x * tailleHeight);
+
+                    if (MapGame[x, y] == 0)
+                        spriteBatch.Draw(mur.Texture, coord, Color.White);
+                    else if (MapGame[x, y] == 1)
+                        spriteBatch.Draw(mur.Texture, coord, Color.Black);
+                }
+            }
+
+            spriteBatch.End();
         }
     }
 }

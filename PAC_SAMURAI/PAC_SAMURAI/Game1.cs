@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -8,6 +5,9 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PAC_SAMURAI
 {
@@ -16,9 +16,6 @@ namespace PAC_SAMURAI
     /// </summary>
     public class Pacsamourai : Microsoft.Xna.Framework.Game
     {
-        const int tailleWidth = 32;
-        const int tailleHeight = 32;
-
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -40,6 +37,7 @@ namespace PAC_SAMURAI
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            // Création de la MAP
             useMap = new Map(0);
 
             base.Initialize();
@@ -55,11 +53,13 @@ namespace PAC_SAMURAI
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            // Chargement des dimensions de la fenêtre de jeu
             graphics.PreferredBackBufferWidth = 1600;
             graphics.PreferredBackBufferHeight = 900;
             graphics.ApplyChanges();
 
             // Read the file and put it in useMap
+            // Chargement des textures et du fichier de la MAP
             mur = new Objet(Content.Load<Texture2D>("mur01"));
             useMap.loadMap();
         }
@@ -85,7 +85,6 @@ namespace PAC_SAMURAI
                 this.Exit();
 
             // TODO: Add your update logic here
-
             base.Update(gameTime);
         }
 
@@ -98,22 +97,8 @@ namespace PAC_SAMURAI
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
-
-            for (int x = 0; x < useMap.MaxMapX; x++)
-            {
-                for (int y = 0; y < useMap.MaxMapY; y++)
-                {
-                    Vector2 coord = new Vector2(y * tailleWidth, x * tailleHeight);
-
-                    if (useMap.MapGame[x, y] == 0)
-                        spriteBatch.Draw(mur.Texture, coord, Color.White);
-                    else if (useMap.MapGame[x, y] == 1)
-                        spriteBatch.Draw(mur.Texture, coord, Color.Black);
-                }
-            }
-
-            spriteBatch.End();
+            // Affichage de la MAP
+            useMap.showMap(spriteBatch, mur);
 
             base.Draw(gameTime);
         }
