@@ -20,7 +20,9 @@ namespace PAC_SAMURAI
         SpriteBatch spriteBatch;
 
         Map useMap;
+
         Objet mur;
+        Objet pacSamourai;
 
         public Pacsamourai()
         {
@@ -61,6 +63,7 @@ namespace PAC_SAMURAI
             // Read the file and put it in useMap
             // Chargement des textures et du fichier de la MAP
             mur = new Objet(Content.Load<Texture2D>("mur01"));
+            pacSamourai = new Objet(Content.Load<Texture2D>("pacsamourai_face"));
             useMap.loadMap();
         }
 
@@ -98,7 +101,7 @@ namespace PAC_SAMURAI
 
             // TODO: Add your drawing code here
             // Affichage de la MAP
-            useMap.showMap(spriteBatch, mur);
+            useMap.showMap(spriteBatch, mur, pacSamourai);
 
             base.Draw(gameTime);
         }

@@ -11,3 +11,4 @@ C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\obj\x86\Debug\Mic
 C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\obj\x86\Debug\PAC_SAMURAI.exe
 C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\obj\x86\Debug\PAC_SAMURAI.pdb
 C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\mur01.xnb
+C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_face.xnb

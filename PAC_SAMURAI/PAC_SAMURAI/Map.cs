@@ -23,7 +23,7 @@ namespace PAC_SAMURAI
         private int maxMapY;
 
         //Données de la MAP
-        private int[,] mapGame;
+        private char[,] mapGame;
 
         public Map(int level)
         {
@@ -55,7 +55,7 @@ namespace PAC_SAMURAI
             set { maxMapY = value; }
         }
 
-        public int[,] MapGame
+        public char[,] MapGame
         {
             get { return mapGame; }
             set { mapGame = value; }
@@ -64,7 +64,7 @@ namespace PAC_SAMURAI
         //Charger les données du fichier de la MAP dans le tableau mapGame
         public void loadMap()
         {
-            List<int[]> lignes = new List<int[]>();
+            List<char[]> lignes = new List<char[]>();
             //Lecture du fichier de la MAP et enregistrement des infos dans le tableau mapGame
             using (StreamReader reader = new StreamReader("Content/maps/"+ nameLevel + ".txt"))
             {
@@ -72,24 +72,24 @@ namespace PAC_SAMURAI
                 while ((ligne = reader.ReadLine()) != null)
                 {
                     string[] strings = ligne.Split(' ');
-                    int[] nombres = new int[strings.Length];
+                    char[] characters = new char[strings.Length];
 
                     //Taille (colonnes) de la MAP
                     maxMapY = strings.Length;
                     for (int i = 0; i < maxMapY; i++)
                     {
                         if (strings[i] != "")
-                            nombres[i] = int.Parse(strings[i]);
+                            characters[i] = char.Parse(strings[i]);
                     }
 
-                    lignes.Add(nombres);
+                    lignes.Add(characters);
                 }
 
                 //Taille (lignes) de la MAP
                 maxMapX = lignes.Count;
 
-                mapGame = new int[maxMapX, maxMapY];
-
+                mapGame = new char[maxMapX, maxMapY];
+                
                 //Création du tableau mapGame
                 for (int x = 0; x < maxMapX; x++)
                 {
@@ -102,7 +102,7 @@ namespace PAC_SAMURAI
         }
 
         //Afficher la MAP d'après le fichier .txt chargée précédemment
-        public void showMap(SpriteBatch spriteBatch, Objet mur)
+        public void showMap(SpriteBatch spriteBatch, Objet mur, Objet pacSamourai)
         {
             spriteBatch.Begin();
 
@@ -113,10 +113,18 @@ namespace PAC_SAMURAI
                 {
                     Vector2 coord = new Vector2(y * tailleWidth, x * tailleHeight);
 
-                    if (MapGame[x, y] == 0)
-                        spriteBatch.Draw(mur.Texture, coord, Color.White);
-                    else if (MapGame[x, y] == 1)
-                        spriteBatch.Draw(mur.Texture, coord, Color.Black);
+                    switch (MapGame[x, y])
+                    {
+                        case '0':
+                            spriteBatch.Draw(mur.Texture, coord, Color.White);
+                            break;
+                        case '1':
+                            spriteBatch.Draw(mur.Texture, coord, Color.Black);
+                            break;
+                        case 'P':
+                            spriteBatch.Draw(pacSamourai.Texture, coord, Color.White);
+                            break;
+                    }
                 }
             }
 

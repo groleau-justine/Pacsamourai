@@ -10,6 +10,15 @@
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\mur01.xnb</Output>
       <Time>2015-04-30T10:51:29.8461577+02:00</Time>
     </Item>
+    <Item>
+      <Source>pacsamourai_face.png</Source>
+      <Name>pacsamourai_face</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_face.xnb</Output>
+      <Time>2015-05-06T09:31:02.9955786+02:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{C3F0195E-F3CF-42A9-95CC-7F947D3A13F5}</ContentProjectGUID>
