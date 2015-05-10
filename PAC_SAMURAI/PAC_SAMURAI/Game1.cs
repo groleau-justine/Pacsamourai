@@ -22,7 +22,7 @@ namespace PAC_SAMURAI
         Map useMap;
 
         Objet mur;
-        Objet pacSamourai;
+        ObjetAnime pacSamourai;
 
         public Pacsamourai()
         {
@@ -51,6 +51,9 @@ namespace PAC_SAMURAI
         /// </summary>
         protected override void LoadContent()
         {
+            // Variable contenant les textures du PacSamourai
+            List<Texture2D> texturePacSamourai = new List<Texture2D>();
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -63,7 +66,18 @@ namespace PAC_SAMURAI
             // Read the file and put it in useMap
             // Chargement des textures et du fichier de la MAP
             mur = new Objet(Content.Load<Texture2D>("mur01"));
-            pacSamourai = new Objet(Content.Load<Texture2D>("pacsamourai_face"));
+
+            // Chargement de l'ensemble des textures du PacSamourai
+            texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_haut"));
+            texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_droite"));
+            texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_bas"));
+            texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_gauche"));
+            texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_hautO"));
+            texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_droiteO"));
+            texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_basO"));
+            texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_gaucheO"));
+
+            pacSamourai = new ObjetAnime(texturePacSamourai);
             useMap.loadMap();
         }
 

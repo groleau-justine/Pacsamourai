@@ -35,8 +35,45 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="pacsamourai_face.png">
-      <Name>pacsamourai_face</Name>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="pacsamourai_bas.png">
+      <Name>pacsamourai_bas</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pacsamourai_basO.png">
+      <Name>pacsamourai_basO</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pacsamourai_droite.png">
+      <Name>pacsamourai_droite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pacsamourai_droiteO.png">
+      <Name>pacsamourai_droiteO</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pacsamourai_gauche.png">
+      <Name>pacsamourai_gauche</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pacsamourai_gaucheO.png">
+      <Name>pacsamourai_gaucheO</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pacsamourai_haut.png">
+      <Name>pacsamourai_haut</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pacsamourai_hautO.png">
+      <Name>pacsamourai_hautO</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

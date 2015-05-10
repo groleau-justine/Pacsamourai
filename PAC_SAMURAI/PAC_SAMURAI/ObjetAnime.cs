@@ -6,18 +6,18 @@ using System.Text;
 
 namespace PAC_SAMURAI
 {
-    // Classe mère de l'ensemble des objets inanimés du jeux Pac-man
-    public class Objet
+    // Classe mère de l'ensemble des objets animés du jeux Pac-man
+    public class ObjetAnime
     {
         //Texture de l'objet
-        private Texture2D texture;
-
-        public Objet(Texture2D texture)
+        private List<Texture2D> texture;
+        
+        public ObjetAnime(List<Texture2D> texture)
         {
             this.texture = texture;
         }
 
-        public Texture2D Texture
+        public List<Texture2D> Texture
         {
             get { return texture; }
             set { texture = value; }

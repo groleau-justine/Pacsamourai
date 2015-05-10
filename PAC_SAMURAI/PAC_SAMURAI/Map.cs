@@ -102,8 +102,12 @@ namespace PAC_SAMURAI
         }
 
         //Afficher la MAP d'après le fichier .txt chargée précédemment
-        public void showMap(SpriteBatch spriteBatch, Objet mur, Objet pacSamourai)
+        public void showMap(SpriteBatch spriteBatch, Objet mur, ObjetAnime pacSamourai)
         {
+            // Variable contenant les textures du PacSamourai
+            List<Texture2D> texturePacSamourai = new List<Texture2D>();
+            texturePacSamourai = pacSamourai.Texture;
+
             spriteBatch.Begin();
 
             //Chargement des textures de la MAP
@@ -122,7 +126,7 @@ namespace PAC_SAMURAI
                             spriteBatch.Draw(mur.Texture, coord, Color.Black);
                             break;
                         case 'P':
-                            spriteBatch.Draw(pacSamourai.Texture, coord, Color.White);
+                            spriteBatch.Draw(texturePacSamourai[1], coord, Color.White);
                             break;
                     }
                 }
