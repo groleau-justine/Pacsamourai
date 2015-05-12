@@ -8,7 +8,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\mur01.xnb</Output>
-      <Time>2015-05-07T13:31:24.2828942+02:00</Time>
+      <Time>2015-05-11T14:54:53.1183612+02:00</Time>
     </Item>
     <Item>
       <Source>pacsamourai_bas.png</Source>
@@ -17,7 +17,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_bas.xnb</Output>
-      <Time>2015-05-07T13:42:21.9057021+02:00</Time>
+      <Time>2015-05-11T16:18:03.2315179+02:00</Time>
     </Item>
     <Item>
       <Source>pacsamourai_basO.png</Source>
@@ -26,16 +26,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_basO.xnb</Output>
-      <Time>2015-05-07T13:42:21.9097017+02:00</Time>
-    </Item>
-    <Item>
-      <Source>pacsamourai_droite.png</Source>
-      <Name>pacsamourai_droite</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_droite.xnb</Output>
-      <Time>2015-05-07T13:42:21.9127014+02:00</Time>
+      <Time>2015-05-11T16:18:03.2315179+02:00</Time>
     </Item>
     <Item>
       <Source>pacsamourai_droiteO.png</Source>
@@ -44,7 +35,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_droiteO.xnb</Output>
-      <Time>2015-05-07T13:42:21.9177009+02:00</Time>
+      <Time>2015-05-11T16:18:03.2315179+02:00</Time>
     </Item>
     <Item>
       <Source>pacsamourai_gauche.png</Source>
@@ -53,7 +44,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_gauche.xnb</Output>
-      <Time>2015-05-07T13:42:21.9207006+02:00</Time>
+      <Time>2015-05-11T16:18:03.2471179+02:00</Time>
     </Item>
     <Item>
       <Source>pacsamourai_gaucheO.png</Source>
@@ -62,7 +53,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_gaucheO.xnb</Output>
-      <Time>2015-05-07T13:42:21.9247002+02:00</Time>
+      <Time>2015-05-11T16:18:03.2471179+02:00</Time>
     </Item>
     <Item>
       <Source>pacsamourai_haut.png</Source>
@@ -71,7 +62,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_haut.xnb</Output>
-      <Time>2015-05-07T13:42:21.9296997+02:00</Time>
+      <Time>2015-05-11T16:18:03.2471179+02:00</Time>
     </Item>
     <Item>
       <Source>pacsamourai_hautO.png</Source>
@@ -80,7 +71,16 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_hautO.xnb</Output>
-      <Time>2015-05-07T13:42:21.9506974+02:00</Time>
+      <Time>2015-05-11T16:18:03.2471179+02:00</Time>
+    </Item>
+    <Item>
+      <Source>pacsamourai_droite.png</Source>
+      <Name>pacsamourai_droite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_droite.xnb</Output>
+      <Time>2015-05-11T16:18:03.2315179+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -121,7 +121,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2015-03-26T09:04:27.9021865+01:00</Value>
+        <Value>2015-03-26T09:06:15.3066568+01:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
