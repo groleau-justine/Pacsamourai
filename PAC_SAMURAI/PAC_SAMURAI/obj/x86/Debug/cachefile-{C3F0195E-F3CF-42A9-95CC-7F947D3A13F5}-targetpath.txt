@@ -1,9 +1,13 @@
 Content\mur01.xnb
 Content\pacsamourai_bas.xnb
 Content\pacsamourai_basO.xnb
+Content\pacsamourai_droite.xnb
 Content\pacsamourai_droiteO.xnb
 Content\pacsamourai_gauche.xnb
 Content\pacsamourai_gaucheO.xnb
 Content\pacsamourai_haut.xnb
 Content\pacsamourai_hautO.xnb
-Content\pacsamourai_droite.xnb
+Content\fantomeN_droite.xnb
+Content\fantomeN_bas.xnb
+Content\fantomeN_gauche.xnb
+Content\fantomeN_haut.xnb

@@ -23,6 +23,7 @@ namespace PAC_SAMURAI
 
         Objet mur;
         ObjetAnime pacSamourai;
+        //ObjetAnime fantomeN;
 
         public Pacsamourai()
         {
@@ -51,8 +52,9 @@ namespace PAC_SAMURAI
         /// </summary>
         protected override void LoadContent()
         {
-            // Variable contenant les textures du PacSamourai
+            // Variables contenant les textures du PacSamourai et des Fantômes
             List<Texture2D> texturePacSamourai = new List<Texture2D>();
+            //List<Texture2D> textureFantomeN = new List<Texture2D>();
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -77,7 +79,14 @@ namespace PAC_SAMURAI
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_basO"));
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_gaucheO"));
 
+            // Chargement de l'ensemble des textures du fantôme
+            //textureFantomeN.Add(Content.Load<Texture2D>("fantomeN_bas"));
+            //textureFantomeN.Add(Content.Load<Texture2D>("fantomeN_droite"));
+            //textureFantomeN.Add(Content.Load<Texture2D>("fantomeN_bas"));
+            //textureFantomeN.Add(Content.Load<Texture2D>("fantomeN_gauche"));
+
             pacSamourai = new ObjetAnime(texturePacSamourai);
+            //fantomeN = new ObjetAnime(textureFantomeN);
             useMap.loadMap();
         }
 
@@ -115,7 +124,7 @@ namespace PAC_SAMURAI
 
             // TODO: Add your drawing code here
             // Affichage de la MAP
-            useMap.showMap(spriteBatch, mur, pacSamourai);
+            useMap.showMap(spriteBatch, mur, pacSamourai); //Ajouter fantomeN...
 
             base.Draw(gameTime);
         }

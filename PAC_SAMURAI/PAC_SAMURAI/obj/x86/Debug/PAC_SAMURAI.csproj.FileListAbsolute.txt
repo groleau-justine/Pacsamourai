@@ -19,3 +19,7 @@ C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Con
 C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_haut.xnb
 C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_hautO.xnb
 C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_droite.xnb
+C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\fantomeN_droite.xnb
+C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\fantomeN_bas.xnb
+C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\fantomeN_gauche.xnb
+C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\fantomeN_haut.xnb

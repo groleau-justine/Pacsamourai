@@ -102,7 +102,7 @@ namespace PAC_SAMURAI
         }
 
         //Afficher la MAP d'après le fichier .txt chargée précédemment
-        public void showMap(SpriteBatch spriteBatch, Objet mur, ObjetAnime pacSamourai)
+        public void showMap(SpriteBatch spriteBatch, Objet mur, ObjetAnime pacSamourai) //Ajouter ObjetAnime fantomeN...
         {
             // Variable contenant les textures du PacSamourai
             List<Texture2D> texturePacSamourai = new List<Texture2D>();
@@ -128,6 +128,9 @@ namespace PAC_SAMURAI
                         case 'P':
                             spriteBatch.Draw(texturePacSamourai[1], coord, Color.White);
                             break;
+                        //case 'F':
+                            //spriteBatch.Draw(fantomeN.Texture[3], coord, Color.White);
+                            //break;
                     }
                 }
             }
