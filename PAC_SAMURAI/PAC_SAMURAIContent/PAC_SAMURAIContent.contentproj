@@ -30,6 +30,20 @@
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.VideoImporters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="sushi.png">
+      <Name>sushi</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="maki.png">
+      <Name>maki</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="mur01.png">
       <Name>mur01</Name>
       <Importer>TextureImporter</Importer>
@@ -79,25 +93,58 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="fantomeN_droite.png">
-      <Name>fantomeN_droite</Name>
+    <Compile Include="pacsamourai_basI.png">
+      <Name>pacsamourai_basI</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pacsamourai_basIO.png">
+      <Name>pacsamourai_basIO</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pacsamourai_droiteI.png">
+      <Name>pacsamourai_droiteI</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pacsamourai_droiteIO.png">
+      <Name>pacsamourai_droiteIO</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pacsamourai_gaucheI.png">
+      <Name>pacsamourai_gaucheI</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pacsamourai_gaucheIO.png">
+      <Name>pacsamourai_gaucheIO</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pacsamourai_hautI.png">
+      <Name>pacsamourai_hautI</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pacsamourai_hautIO.png">
+      <Name>pacsamourai_hautIO</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="fantomeN_bas.png">
-      <Name>fantomeN_bas</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
+    <Compile Include="FontPacsamurai.spritefont">
+      <Name>FontPacsamurai</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <SubType>Designer</SubType>
     </Compile>
-    <Compile Include="fantomeN_gauche.png">
-      <Name>fantomeN_gauche</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="fantomeN_haut.png">
-      <Name>fantomeN_haut</Name>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="cerises.png">
+      <Name>cerises</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

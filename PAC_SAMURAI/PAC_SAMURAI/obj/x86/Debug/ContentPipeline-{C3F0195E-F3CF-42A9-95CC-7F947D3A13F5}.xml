@@ -8,7 +8,61 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\mur01.xnb</Output>
-      <Time>2015-05-12T15:18:05.265407+02:00</Time>
+      <Time>2015-05-20T21:39:24.7045321+02:00</Time>
+    </Item>
+    <Item>
+      <Source>sushi.png</Source>
+      <Name>sushi</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\sushi.xnb</Output>
+      <Time>2015-05-20T17:42:46.0101134+02:00</Time>
+    </Item>
+    <Item>
+      <Source>maki.png</Source>
+      <Name>maki</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\maki.xnb</Output>
+      <Time>2015-05-20T18:04:21.5712153+02:00</Time>
+    </Item>
+    <Item>
+      <Source>pacsamourai_basI.png</Source>
+      <Name>pacsamourai_basI</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_basI.xnb</Output>
+      <Time>2015-05-22T11:09:48.0440276+02:00</Time>
+    </Item>
+    <Item>
+      <Source>pacsamourai_droiteI.png</Source>
+      <Name>pacsamourai_droiteI</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_droiteI.xnb</Output>
+      <Time>2015-05-22T11:09:48.0540278+02:00</Time>
+    </Item>
+    <Item>
+      <Source>pacsamourai_gaucheI.png</Source>
+      <Name>pacsamourai_gaucheI</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_gaucheI.xnb</Output>
+      <Time>2015-05-22T11:09:48.064028+02:00</Time>
+    </Item>
+    <Item>
+      <Source>pacsamourai_hautI.png</Source>
+      <Name>pacsamourai_hautI</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_hautI.xnb</Output>
+      <Time>2015-05-22T11:09:48.064028+02:00</Time>
     </Item>
     <Item>
       <Source>pacsamourai_bas.png</Source>
@@ -17,7 +71,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_bas.xnb</Output>
-      <Time>2015-05-12T15:18:05.304407+02:00</Time>
+      <Time>2015-05-22T11:09:38.5262083+02:00</Time>
     </Item>
     <Item>
       <Source>pacsamourai_basO.png</Source>
@@ -26,7 +80,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_basO.xnb</Output>
-      <Time>2015-05-12T15:18:05.305407+02:00</Time>
+      <Time>2015-05-22T11:09:38.5262083+02:00</Time>
     </Item>
     <Item>
       <Source>pacsamourai_droite.png</Source>
@@ -35,7 +89,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_droite.xnb</Output>
-      <Time>2015-05-12T15:18:05.305407+02:00</Time>
+      <Time>2015-05-22T11:09:38.5362087+02:00</Time>
     </Item>
     <Item>
       <Source>pacsamourai_droiteO.png</Source>
@@ -44,7 +98,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_droiteO.xnb</Output>
-      <Time>2015-05-12T15:18:05.306407+02:00</Time>
+      <Time>2015-05-22T11:09:38.5362087+02:00</Time>
     </Item>
     <Item>
       <Source>pacsamourai_gauche.png</Source>
@@ -53,7 +107,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_gauche.xnb</Output>
-      <Time>2015-05-12T15:18:05.306407+02:00</Time>
+      <Time>2015-05-22T11:09:38.5362087+02:00</Time>
     </Item>
     <Item>
       <Source>pacsamourai_gaucheO.png</Source>
@@ -62,7 +116,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_gaucheO.xnb</Output>
-      <Time>2015-05-12T15:18:05.307407+02:00</Time>
+      <Time>2015-05-22T11:09:38.5462091+02:00</Time>
     </Item>
     <Item>
       <Source>pacsamourai_haut.png</Source>
@@ -71,7 +125,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_haut.xnb</Output>
-      <Time>2015-05-12T15:18:05.307407+02:00</Time>
+      <Time>2015-05-22T11:09:38.5462091+02:00</Time>
     </Item>
     <Item>
       <Source>pacsamourai_hautO.png</Source>
@@ -80,43 +134,61 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_hautO.xnb</Output>
-      <Time>2015-05-12T15:18:05.308407+02:00</Time>
+      <Time>2015-05-22T11:09:38.5462091+02:00</Time>
     </Item>
     <Item>
-      <Source>fantomeN_droite.png</Source>
-      <Name>fantomeN_droite</Name>
+      <Source>pacsamourai_basIO.png</Source>
+      <Name>pacsamourai_basIO</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\fantomeN_droite.xnb</Output>
-      <Time>2015-05-12T15:45:25.7717099+02:00</Time>
+      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_basIO.xnb</Output>
+      <Time>2015-05-22T11:09:48.0440276+02:00</Time>
     </Item>
     <Item>
-      <Source>fantomeN_bas.png</Source>
-      <Name>fantomeN_bas</Name>
+      <Source>pacsamourai_droiteIO.png</Source>
+      <Name>pacsamourai_droiteIO</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\fantomeN_bas.xnb</Output>
-      <Time>2015-05-12T15:45:21.3857099+02:00</Time>
+      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_droiteIO.xnb</Output>
+      <Time>2015-05-22T11:09:48.0540278+02:00</Time>
     </Item>
     <Item>
-      <Source>fantomeN_gauche.png</Source>
-      <Name>fantomeN_gauche</Name>
+      <Source>pacsamourai_gaucheIO.png</Source>
+      <Name>pacsamourai_gaucheIO</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\fantomeN_gauche.xnb</Output>
-      <Time>2015-05-12T15:45:25.7747099+02:00</Time>
+      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_gaucheIO.xnb</Output>
+      <Time>2015-05-22T11:09:48.064028+02:00</Time>
     </Item>
     <Item>
-      <Source>fantomeN_haut.png</Source>
-      <Name>fantomeN_haut</Name>
+      <Source>pacsamourai_hautIO.png</Source>
+      <Name>pacsamourai_hautIO</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\fantomeN_haut.xnb</Output>
-      <Time>2015-05-12T15:45:25.7777099+02:00</Time>
+      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\pacsamourai_hautIO.xnb</Output>
+      <Time>2015-05-22T11:09:48.0740282+02:00</Time>
+    </Item>
+    <Item>
+      <Source>FontPacsamurai.spritefont</Source>
+      <Name>FontPacsamurai</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\FontPacsamurai.xnb</Output>
+      <Time>2015-05-23T19:21:01.8405606+02:00</Time>
+    </Item>
+    <Item>
+      <Source>cerises.png</Source>
+      <Name>cerises</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Epulapp\Documents\Pacsamourai\PAC_SAMURAI\PAC_SAMURAI\bin\x86\Debug\Content\cerises.xnb</Output>
+      <Time>2015-05-23T20:00:35.3764341+02:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -157,7 +229,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2015-03-26T09:04:27.9021865+01:00</Value>
+        <Value>2015-03-26T09:06:15.3066568+01:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

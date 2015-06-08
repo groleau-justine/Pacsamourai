@@ -16,14 +16,21 @@ namespace PAC_SAMURAI
     /// </summary>
     public class Pacsamourai : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private Map useMap;
 
-        Map useMap;
-
-        Objet mur;
-        ObjetAnime pacSamourai;
+        private Pacsamurai pacSamourai;
+        private Objet mur;
+        private Objet sushi, maki, cerises;
         //ObjetAnime fantomeN;
+
+        //Gestion clavier
+        private KeyboardState oldState;
+        private Clavier clavier;
+        private SpriteFont font;
+        
+        private Timers timer;
 
         public Pacsamourai()
         {
@@ -39,11 +46,20 @@ namespace PAC_SAMURAI
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             // Création de la MAP
             useMap = new Map(0);
 
             base.Initialize();
+
+            this.IsMouseVisible = true;
+
+            //Récupération de l'état clavier et initialisation du clavier 
+            oldState = Keyboard.GetState();
+            clavier = new Clavier(pacSamourai, oldState, useMap);
+
+            //Initialisation d'un objet timer
+            this.timer = new Timers(useMap);
+
         }
 
         /// <summary>
@@ -54,6 +70,7 @@ namespace PAC_SAMURAI
         {
             // Variables contenant les textures du PacSamourai et des Fantômes
             List<Texture2D> texturePacSamourai = new List<Texture2D>();
+            List<Texture2D> textureInvPacSamourai = new List<Texture2D>();
             //List<Texture2D> textureFantomeN = new List<Texture2D>();
 
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -61,15 +78,19 @@ namespace PAC_SAMURAI
 
             // TODO: use this.Content to load your game content here
             // Chargement des dimensions de la fenêtre de jeu
-            graphics.PreferredBackBufferWidth = 1600;
-            graphics.PreferredBackBufferHeight = 900;
+            graphics.PreferredBackBufferWidth = 21*32;
+            graphics.PreferredBackBufferHeight = 770;
             graphics.ApplyChanges();
 
             // Read the file and put it in useMap
             // Chargement des textures et du fichier de la MAP
             mur = new Objet(Content.Load<Texture2D>("mur01"));
+            sushi = new Objet(Content.Load<Texture2D>("sushi"));
+            maki = new Objet(Content.Load<Texture2D>("maki"));
+            cerises = new Objet(Content.Load<Texture2D>("cerises"));
 
             // Chargement de l'ensemble des textures du PacSamourai
+            //Texture mode normal
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_haut"));
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_droite"));
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_bas"));
@@ -78,6 +99,15 @@ namespace PAC_SAMURAI
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_droiteO"));
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_basO"));
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_gaucheO"));
+            //Texture mode invincible
+            textureInvPacSamourai.Add(Content.Load<Texture2D>("pacsamourai_hautI"));
+            textureInvPacSamourai.Add(Content.Load<Texture2D>("pacsamourai_droiteI"));
+            textureInvPacSamourai.Add(Content.Load<Texture2D>("pacsamourai_basI"));
+            textureInvPacSamourai.Add(Content.Load<Texture2D>("pacsamourai_gaucheI"));
+            textureInvPacSamourai.Add(Content.Load<Texture2D>("pacsamourai_hautIO"));
+            textureInvPacSamourai.Add(Content.Load<Texture2D>("pacsamourai_droiteIO"));
+            textureInvPacSamourai.Add(Content.Load<Texture2D>("pacsamourai_basIO"));
+            textureInvPacSamourai.Add(Content.Load<Texture2D>("pacsamourai_gaucheIO"));
 
             // Chargement de l'ensemble des textures du fantôme
             //textureFantomeN.Add(Content.Load<Texture2D>("fantomeN_bas"));
@@ -85,9 +115,13 @@ namespace PAC_SAMURAI
             //textureFantomeN.Add(Content.Load<Texture2D>("fantomeN_bas"));
             //textureFantomeN.Add(Content.Load<Texture2D>("fantomeN_gauche"));
 
-            pacSamourai = new ObjetAnime(texturePacSamourai);
+            
             //fantomeN = new ObjetAnime(textureFantomeN);
             useMap.loadMap();
+
+            pacSamourai = new Pacsamurai(texturePacSamourai, textureInvPacSamourai, useMap);
+
+            font = Content.Load<SpriteFont>("FontPacsamurai");
         }
 
         /// <summary>
@@ -110,8 +144,29 @@ namespace PAC_SAMURAI
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            /***** GESTION DU CLAVIER *****/         
+            clavier.update(gameTime);
+
+            /*** Gestion des bonus ***/
+            timer.lancerTimerBonus(gameTime);
+
+            /*** Gestion du pouvoir d'invincibilité du Pacsamurai ***/
+
+            // Si le pacsamurai est dans un mode invincible
+            if (pacSamourai.Invincible)
+            {
+                // On fait appel à la fonction suivante pour savoir s'il est toujours en mode
+                pacSamourai.Invincible = timer.gererTimerInvincible(gameTime);
+            }
+            else
+            {
+                //On remet sa texture en mode normal
+                pacSamourai.Texture = pacSamourai.ListeTextures[pacSamourai.NumTexture];
+            }
+
             // TODO: Add your update logic here
             base.Update(gameTime);
+          
         }
 
         /// <summary>
@@ -124,7 +179,7 @@ namespace PAC_SAMURAI
 
             // TODO: Add your drawing code here
             // Affichage de la MAP
-            useMap.showMap(spriteBatch, mur, pacSamourai); //Ajouter fantomeN...
+            useMap.showMap(spriteBatch, mur, pacSamourai, sushi, maki, cerises, font); //Ajouter fantomeN...
 
             base.Draw(gameTime);
         }

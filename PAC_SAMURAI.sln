@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PAC_SAMURAI", "PAC_SAMURAI\PAC_SAMURAI\PAC_SAMURAI.csproj", "{3D24D694-F137-458D-BCBC-CE1D42FCD2FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PAC_SAMURAIContent", "PAC_SAMURAI\PAC_SAMURAIContent\PAC_SAMURAIContent.contentproj", "{C3F0195E-F3CF-42A9-95CC-7F947D3A13F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6EF80106-881C-4DA9-BCEE-3419A94AB6A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

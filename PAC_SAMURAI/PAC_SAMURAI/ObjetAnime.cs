@@ -9,18 +9,26 @@ namespace PAC_SAMURAI
     // Classe mère de l'ensemble des objets animés du jeux Pac-man
     public class ObjetAnime
     {
-        //Texture de l'objet
-        private List<Texture2D> texture;
-        
-        public ObjetAnime(List<Texture2D> texture)
+        //Textures de l'objet
+        private List<Texture2D> listeTextures = new List<Texture2D>();
+        private List<Texture2D> listeTexturesInvincible = new List<Texture2D>();
+     
+        public ObjetAnime(List<Texture2D> listeTextures, List<Texture2D> listeTexturesInvincible)
         {
-            this.texture = texture;
+            this.listeTextures = listeTextures;
+            this.listeTexturesInvincible = listeTexturesInvincible;
         }
 
-        public List<Texture2D> Texture
+        public List<Texture2D> ListeTextures
         {
-            get { return texture; }
-            set { texture = value; }
+            get { return listeTextures; }
+            set { listeTextures = value; }
+        }
+
+        public List<Texture2D> ListeTexturesInvincible
+        {
+            get { return listeTexturesInvincible; }
+            set { listeTexturesInvincible = value; }
         }
     }
 }

@@ -25,10 +25,21 @@ namespace PAC_SAMURAI
         //Données de la MAP
         private char[,] mapGame;
 
+        Boolean bonus;
+        private int xBonus;
+        private int yBonus;
+
+        public Boolean Bonus
+        {
+            get { return bonus; }
+            set { bonus = value; }
+        }
+
         public Map(int level)
         {
             this.level = level;
             nameLevel = "map" + level.ToString("D2");
+            bonus = false;
         }
 
         public int Level
@@ -102,12 +113,8 @@ namespace PAC_SAMURAI
         }
 
         //Afficher la MAP d'après le fichier .txt chargée précédemment
-        public void showMap(SpriteBatch spriteBatch, Objet mur, ObjetAnime pacSamourai) //Ajouter ObjetAnime fantomeN...
+        public void showMap(SpriteBatch spriteBatch, Objet mur, Pacsamurai pacSamourai, Objet sushi, Objet maki, Objet cerises, SpriteFont font) //Ajouter ObjetAnime fantomeN...
         {
-            // Variable contenant les textures du PacSamourai
-            List<Texture2D> texturePacSamourai = new List<Texture2D>();
-            texturePacSamourai = pacSamourai.Texture;
-
             spriteBatch.Begin();
 
             //Chargement des textures de la MAP
@@ -125,8 +132,20 @@ namespace PAC_SAMURAI
                         case '1':
                             spriteBatch.Draw(mur.Texture, coord, Color.Black);
                             break;
+                        case 'S':
+                            spriteBatch.Draw(sushi.Texture, coord, Color.White);
+                            break;
+                        case 'M':
+                            spriteBatch.Draw(maki.Texture, coord, Color.White);
+                            break;
                         case 'P':
-                            spriteBatch.Draw(texturePacSamourai[1], coord, Color.White);
+                            spriteBatch.Draw(pacSamourai.Texture, coord, Color.White);
+                            break;
+                        case 'B':
+                            spriteBatch.Draw(cerises.Texture, coord, Color.White);
+                            break;
+                        case '2':
+                            spriteBatch.Draw(mur.Texture, coord, Color.Black);
                             break;
                         //case 'F':
                             //spriteBatch.Draw(fantomeN.Texture[3], coord, Color.White);
@@ -135,7 +154,57 @@ namespace PAC_SAMURAI
                 }
             }
 
+            //Affichage du texte dans le jeu          
+            String texteVie = String.Format("Vie : {0}", pacSamourai.Vies);
+            String texteScore = String.Format("Score : {0}", pacSamourai.Score);
+            spriteBatch.DrawString(font, texteVie, new Vector2(10, 32 * 22), Color.White);
+            spriteBatch.DrawString(font, texteScore, new Vector2(4*32, 22*32), Color.White);
+
             spriteBatch.End();
         }
+
+        public void drawBonus(Random aleatoire)
+        {
+            char bonusChoisi = GenerateurBonus.recupererBonus(aleatoire);
+
+            if (!bonusChoisi.Equals('v'))
+            {
+                //On récupère les cases vides ou il est possible de poser un bonus
+                List<Vector2> positionsPossiblesBonus = new List<Vector2>();
+                for (int x = 0; x < MaxMapX; x++)
+                {
+                    for (int y = 0; y < MaxMapY; y++)
+                    {
+                        if ('1'.Equals(MapGame[x, y]))
+                        {
+                            //TODO : mettre list en var globale et si tab existe pas on insère pas ???
+                            positionsPossiblesBonus.Add(new Vector2(x, y));
+                        }
+                    }
+                }
+                if (positionsPossiblesBonus.Count != 0)
+                {
+                    int position = aleatoire.Next(0, positionsPossiblesBonus.Count);
+                    List<Vector2> caseMap = positionsPossiblesBonus.GetRange(position, 1);
+                    Vector2 caseBonus = caseMap[0];
+                    xBonus = (int)caseBonus.X;
+                    yBonus = (int)caseBonus.Y;
+
+                    this.MapGame[xBonus, yBonus] = 'B';
+
+                }
+            }
+
+            
+            
+        }
+
+        public void removeBonus()
+        {
+            this.MapGame[xBonus, yBonus] = '1';
+
+        }
+
+
     }
 }
