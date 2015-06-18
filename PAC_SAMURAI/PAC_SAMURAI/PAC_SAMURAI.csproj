@@ -73,7 +73,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clavier.cs" />
+    <Compile Include="Fantome.cs" />
     <Compile Include="Menu.cs" />
+    <Compile Include="Point.cs" />
+    <Compile Include="Root.cs" />
     <Compile Include="Utilitaires\GenerateurBonus.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Objet.cs" />

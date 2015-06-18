@@ -9,14 +9,51 @@ namespace PAC_SAMURAI
 {
     public class Pacsamurai : ObjetAnime
     {
+        private int numTexture;
+        private Texture2D texture;
         private int sonX;
         private int sonY;
         private int sesVies;
         private int score;
-        private Map map;
-        private Texture2D texture;
-        private Timers timer;
         private Boolean invincible;
+        private Boolean mortDePac;
+        private Boolean isMort;
+
+        private Map map;
+        private Timers timer;
+
+        private List<char> fantomePeur;
+        private Point lastPosition;
+        private char lastFantome;
+
+        public Pacsamurai(List<Texture2D> listeTextures, List<Texture2D> listeTexturesInvincible, Map map)
+            : base(listeTextures, listeTexturesInvincible)
+        {
+            this.score = 0;
+            this.sesVies = 3;
+
+            this.map = map;
+
+            this.numTexture = 1;
+            this.texture = base.ListeTextures[1];
+            for (int ligneX = 0; ligneX < map.MaxMapX; ligneX++)
+            {
+                for (int ligneY = 0; ligneY < map.MaxMapY; ligneY++)
+                {
+                    if (map.MapGame[ligneX, ligneY] == 'P')
+                    {
+                        sonX = ligneX;
+                        sonY = ligneY;
+                    }
+                }
+            }
+            this.timer = new Timers(map);
+            this.invincible = false;
+
+            fantomePeur = new List<char>();
+            lastPosition = new Point(0, 0);
+            lastFantome = ' ';
+        }
 
         public Boolean Invincible
         {
@@ -29,7 +66,6 @@ namespace PAC_SAMURAI
             get { return texture; }
             set { texture = value; }
         }
-        private int numTexture;
 
         public int NumTexture
         {
@@ -40,6 +76,7 @@ namespace PAC_SAMURAI
         public int SonX
         {
             get { return sonX; }
+            set { sonX = value; }
         }
 
         public int SonY
@@ -60,27 +97,35 @@ namespace PAC_SAMURAI
             set { score = value; }
         }
 
-
-        public Pacsamurai(List<Texture2D> listeTextures, List<Texture2D> listeTexturesInvincible, Map map) : base(listeTextures, listeTexturesInvincible)
+        public Boolean MortDePac
         {
-            this.score = 0;
-            this.sesVies = 3;
-            this.map = map;
-            this.numTexture = 1;
-            this.texture = base.ListeTextures[1];
-            for (int ligneX = 0; ligneX < map.MaxMapX; ligneX++)
-            {
-                for (int ligneY = 0; ligneY < map.MaxMapY; ligneY++)
-                {
-                    if (map.MapGame[ligneX, ligneY] == 'P')
-                    {
-                        sonX = ligneX;
-                        sonY = ligneY;
-                    }
-                }
-            }
-            this.timer = new Timers(map);
-            this.invincible = false;
+            get { return mortDePac; }
+            set { mortDePac = value; }
+        }
+
+        public Boolean IsMort
+        {
+            get { return isMort; }
+            set { isMort = value; }
+        }
+
+        public List<char> FantomePeur
+        {
+            get { return fantomePeur; }
+            set { fantomePeur = value; }
+        }
+
+
+        //Ajouter un fantôme dans la liste de ceux qui sont dans l'état "Peur"
+        public void addFantome(char typeFantome)
+        {
+            fantomePeur.Add(typeFantome);
+        }
+
+        //Enlever un fantôme de la liste de ceux qui sont dans l'état "Peur"
+        public void removeFantome(char typeFantome)
+        {
+            fantomePeur.Remove(typeFantome);
         }
 
         /** Méthode qui modifie le X de pacsamurai (la ligne où il se trouve)
@@ -174,36 +219,59 @@ namespace PAC_SAMURAI
             {
                 char caseMap = map.MapGame[sonX + x, sonY + y];
                 List<Texture2D> listeTextures;
-    
-                //Met l'ancienne position du pacman à 1 (endroit ou il peut se déplacer)
-                map.MapGame[sonX, sonY] = '1';
-                              
-                /*** Gestion du score incrémenté par 10 ****/
-                if (caseMap == 'S')
+                
+                switch (caseMap)
                 {
-                    score+=10;
+                    // Gestion du score incrémenté par 10 (sushi)
+                    case 'S':
+                        score += 10;
+                        break;
+                    // Gestion du score lié aux bonus
+                    case 'B':
+                        score += 100;
+                        break;
+                    // Gestion du pouvoir invincible déclenché par les makis
+                    // Si le pacsamurai se dirige vers un maki
+                    case 'M':
+                        //On lance le timer du mode invincible
+                        invincible = timer.gererTimerInvincible(gameTime);
+                        break;
                 }
 
-                /*** Gestion du pouvoir invincible déblanché par les makis ***/
-                // Si le pacsamurai se dirige vers un maki
-                if (caseMap == 'M')
+                char[] notIn = { 'F', 'Q', 'R', 'V' };
+                //Remove l'ancienne position du pacman (endroit ou il peut se déplacer)
+                if (notIn.Contains(caseMap))
                 {
-                    //On lance le timer du mode invincible
-                    invincible = timer.gererTimerInvincible(gameTime);
+                    lastPosition.X = sonX + x;
+                    lastPosition.Y = sonY + y;
+                    lastFantome = caseMap;
                 }
+                
+                map.MapGame[sonX, sonY] = '1';
+
+                if (lastFantome != ' ')
+                {
+                    map.MapGame[lastPosition.X, lastPosition.Y] = lastFantome;
+                    lastFantome = ' ';
+                }
+
                 if (invincible == true)
                 {
                     listeTextures = base.ListeTexturesInvincible;
+                    // Gérer les transitions avec les fantômes
+                    if (notIn.Contains(caseMap))
+                    {
+                        fantomePeur.Add(caseMap);
+                    }
                 }
                 else
                 {
                     listeTextures = base.ListeTextures;
-                }
-
-                /*** Gestion des bonus ***/
-                if (caseMap == 'B')
-                {
-                    score += 100;
+                    // Gérer les transitions avec les fantômes
+                    if (notIn.Contains(caseMap))
+                    {
+                        mortDePac = true;
+                    }
                 }
 
                 //On modifie ses coordonnées
@@ -218,28 +286,29 @@ namespace PAC_SAMURAI
         // Vérifie si la position du pacsamurai est bien dans la map
         public Boolean positionCoherente(int x, int y, GameTime gameTime)
         {
-            Boolean ok=false;
+            Boolean ok = false;
             if (x >= 0 && x <= map.MaxMapX && y >= 0)
             {
-                ok=true;
+                ok = true;
             }
 
-            /*** Gestion des cas particuliés  ***/
+            // Gestion des cas particuliés
 
             // Quand le pacsamurai se déplace le plus à droite 
-            // et se retrouve à gauche de la map (passage de la postion y=20 à y=0)
+            // et se retrouve à gauche de la map (passage de la postion y = 20 à y = 0)
             if (y >= map.MaxMapY)
             {
                 setPosition(0, -sonY, gameTime);
             }
+
             // Quand le pacsamurai se déplace le plus à gauche 
-            // et se retrouve à droite de la map (passage de la postion y=0 à y=20)
+            // et se retrouve à droite de la map (passage de la postion y = 0 à y = 20)
             if (y == -1)
             {
                 setPosition(0, map.MaxMapY - 1, gameTime);
             }
+
             return ok;
         }
-
     }
 }

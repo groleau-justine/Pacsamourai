@@ -18,12 +18,14 @@ namespace PAC_SAMURAI
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+        
         private Map useMap;
 
+        private Fantome fantomeBleu, fantomeRose, fantomeRouge, fantomeVert;
         private Pacsamurai pacSamourai;
+        
         private Objet mur;
         private Objet sushi, maki, cerises;
-        //ObjetAnime fantomeN;
 
         //Gestion clavier
         private KeyboardState oldState;
@@ -71,7 +73,11 @@ namespace PAC_SAMURAI
             // Variables contenant les textures du PacSamourai et des Fantômes
             List<Texture2D> texturePacSamourai = new List<Texture2D>();
             List<Texture2D> textureInvPacSamourai = new List<Texture2D>();
-            //List<Texture2D> textureFantomeN = new List<Texture2D>();
+            List<Texture2D> textureFantomeBleu = new List<Texture2D>();
+            List<Texture2D> textureFantomeRose = new List<Texture2D>();
+            List<Texture2D> textureFantomeRouge = new List<Texture2D>();
+            List<Texture2D> textureFantomeVert = new List<Texture2D>();
+            List<Texture2D> textureInvFantome = new List<Texture2D>();
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -89,7 +95,7 @@ namespace PAC_SAMURAI
             maki = new Objet(Content.Load<Texture2D>("maki"));
             cerises = new Objet(Content.Load<Texture2D>("cerises"));
 
-            // Chargement de l'ensemble des textures du PacSamourai
+            //Chargement de l'ensemble des textures du PacSamourai
             //Texture mode normal
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_haut"));
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_droite"));
@@ -99,6 +105,7 @@ namespace PAC_SAMURAI
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_droiteO"));
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_basO"));
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_gaucheO"));
+
             //Texture mode invincible
             textureInvPacSamourai.Add(Content.Load<Texture2D>("pacsamourai_hautI"));
             textureInvPacSamourai.Add(Content.Load<Texture2D>("pacsamourai_droiteI"));
@@ -109,18 +116,24 @@ namespace PAC_SAMURAI
             textureInvPacSamourai.Add(Content.Load<Texture2D>("pacsamourai_basIO"));
             textureInvPacSamourai.Add(Content.Load<Texture2D>("pacsamourai_gaucheIO"));
 
-            // Chargement de l'ensemble des textures du fantôme
-            //textureFantomeN.Add(Content.Load<Texture2D>("fantomeN_bas"));
-            //textureFantomeN.Add(Content.Load<Texture2D>("fantomeN_droite"));
-            //textureFantomeN.Add(Content.Load<Texture2D>("fantomeN_bas"));
-            //textureFantomeN.Add(Content.Load<Texture2D>("fantomeN_gauche"));
+            //Chargement de l'ensemble des textures des fantômes bleu, rose, rouge et vert
+            //Texture mode normal
+            textureFantomeBleu.Add(Content.Load<Texture2D>("fantomeBleu"));
+            textureFantomeRose.Add(Content.Load<Texture2D>("fantomeRose"));
+            textureFantomeRouge.Add(Content.Load<Texture2D>("fantomeRouge"));
+            textureFantomeVert.Add(Content.Load<Texture2D>("fantomeVert"));
 
-            
-            //fantomeN = new ObjetAnime(textureFantomeN);
+            //Texture mode peur
+            textureInvFantome.Add(Content.Load<Texture2D>("fantomePeur"));
+
             useMap.loadMap();
 
+            fantomeBleu = new Fantome(textureFantomeBleu, textureInvFantome, 1, 'F', useMap);
+            fantomeRose = new Fantome(textureFantomeRose, textureInvFantome, 2, 'R', useMap);
+            fantomeRouge = new Fantome(textureFantomeRouge, textureInvFantome, 3, 'Q', useMap);
+            fantomeVert = new Fantome(textureFantomeVert, textureInvFantome, 4, 'V', useMap);
             pacSamourai = new Pacsamurai(texturePacSamourai, textureInvPacSamourai, useMap);
-
+            
             font = Content.Load<SpriteFont>("FontPacsamurai");
         }
 
@@ -144,24 +157,147 @@ namespace PAC_SAMURAI
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            /***** GESTION DU CLAVIER *****/         
+            // Gestion du clavier
             clavier.update(gameTime);
 
-            /*** Gestion des bonus ***/
+            // Gestion des bonus
             timer.lancerTimerBonus(gameTime);
 
-            /*** Gestion du pouvoir d'invincibilité du Pacsamurai ***/
+            // Gestion du pouvoir d'invincibilité du Pacsamurai
 
             // Si le pacsamurai est dans un mode invincible
             if (pacSamourai.Invincible)
             {
-                // On fait appel à la fonction suivante pour savoir s'il est toujours en mode
+                // On fait appel à la fonction suivante pour savoir s'il est toujours en mode invincible
                 pacSamourai.Invincible = timer.gererTimerInvincible(gameTime);
             }
             else
             {
-                //On remet sa texture en mode normal
+                // On remet sa texture en mode normal
                 pacSamourai.Texture = pacSamourai.ListeTextures[pacSamourai.NumTexture];
+            }
+
+            // Gestion de l'IA des fantômes
+            // Timer qui permet de gérer le temps entre deux actions des fantômes
+            timer.lancerTimerFantome(gameTime, fantomeBleu, fantomeRose, fantomeRouge, fantomeVert);
+
+            //Fantôme bleu
+            if (!fantomeBleu.IsPeur)
+            {
+                if (fantomeBleu.GoFantome)
+                {
+                    if (fantomeBleu.choixFantomeIA())
+                    {
+                        if (pacSamourai.Invincible)
+                        {
+                            // On fait appel à la fonction suivante pour savoir s'il est toujours en mode peur
+                            fantomeBleu.IsPeur = timer.gererTimerPeur(gameTime);
+                            fantomeBleu.choiceOfTexture();
+                            pacSamourai.addFantome(fantomeBleu.TypeFantome);
+                        }
+                        else
+                        {
+                            pacSamourai.MortDePac = true;
+                        }
+                    }
+                    fantomeBleu.GoFantome = false;
+                }
+            }
+            else
+            {
+                fantomeBleu.choiceOfTexture();
+                pacSamourai.removeFantome(fantomeBleu.TypeFantome);
+            }
+
+            //Fantôme rose
+            if (!fantomeRose.IsPeur)
+            {
+                if (fantomeRose.GoFantome)
+                {
+                    if (fantomeRose.choixFantomeIA())
+                    {
+                        if (pacSamourai.Invincible)
+                        {
+                            // On fait appel à la fonction suivante pour savoir s'il est toujours en mode peur
+                            fantomeRose.IsPeur = timer.gererTimerPeur(gameTime);
+                            fantomeRose.choiceOfTexture();
+                            pacSamourai.addFantome(fantomeRose.TypeFantome);
+                        }
+                        else
+                        {
+                            pacSamourai.MortDePac = true;
+                        }
+                    }
+                    fantomeRose.GoFantome = false;
+                }
+            }
+            else
+            {
+                fantomeRose.choiceOfTexture();
+                pacSamourai.removeFantome(fantomeRose.TypeFantome);
+            }
+
+            //Fantôme rouge
+            if (!fantomeRouge.IsPeur)
+            {
+                if (fantomeRouge.GoFantome)
+                {
+                    if (fantomeRouge.choixFantomeIA())
+                    {
+                        if (pacSamourai.Invincible)
+                        {
+                            // On fait appel à la fonction suivante pour savoir s'il est toujours en mode peur
+                            fantomeRouge.IsPeur = timer.gererTimerPeur(gameTime);
+                            fantomeRouge.choiceOfTexture();
+                            pacSamourai.addFantome(fantomeRouge.TypeFantome);
+                        }
+                        else
+                        {
+                            pacSamourai.MortDePac = true;
+                        }
+                    }
+                    fantomeRouge.GoFantome = false;
+                }
+            }
+            else
+            {
+                fantomeRouge.choiceOfTexture();
+                pacSamourai.removeFantome(fantomeRouge.TypeFantome);
+            }
+
+            //Fantôme vert
+            if (!fantomeVert.IsPeur)
+            {
+                if (fantomeVert.GoFantome)
+                {
+                    if (fantomeVert.choixFantomeIA())
+                    {
+                        if (pacSamourai.Invincible)
+                        {
+                            // On fait appel à la fonction suivante pour savoir s'il est toujours en mode peur
+                            fantomeVert.IsPeur = timer.gererTimerPeur(gameTime);
+                            fantomeVert.choiceOfTexture();
+                            pacSamourai.addFantome(fantomeVert.TypeFantome);
+                        }
+                        else
+                        {
+                            pacSamourai.MortDePac = true;
+                        }
+                    }
+                    fantomeVert.GoFantome = false;
+                }
+            }
+            else
+            {
+                fantomeVert.choiceOfTexture();
+                pacSamourai.removeFantome(fantomeVert.TypeFantome);
+            }
+
+            if (pacSamourai.MortDePac)
+            {
+                pacSamourai.Vies--;
+                pacSamourai.MortDePac = false;
+                pacSamourai.IsMort = timer.gererTimerMort(gameTime);
             }
 
             // TODO: Add your update logic here
@@ -179,7 +315,7 @@ namespace PAC_SAMURAI
 
             // TODO: Add your drawing code here
             // Affichage de la MAP
-            useMap.showMap(spriteBatch, mur, pacSamourai, sushi, maki, cerises, font); //Ajouter fantomeN...
+            useMap.showMap(spriteBatch, mur, pacSamourai, fantomeBleu, fantomeRose, fantomeRouge, fantomeVert, sushi, maki, cerises, font);
 
             base.Draw(gameTime);
         }

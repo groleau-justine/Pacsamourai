@@ -113,7 +113,7 @@ namespace PAC_SAMURAI
         }
 
         //Afficher la MAP d'après le fichier .txt chargée précédemment
-        public void showMap(SpriteBatch spriteBatch, Objet mur, Pacsamurai pacSamourai, Objet sushi, Objet maki, Objet cerises, SpriteFont font) //Ajouter ObjetAnime fantomeN...
+        public void showMap(SpriteBatch spriteBatch, Objet mur, Pacsamurai pacSamourai, Fantome fantomeBleu, Fantome fantomeRose, Fantome fantomeRouge, Fantome fantomeVert, Objet sushi, Objet maki, Objet cerises, SpriteFont font)
         {
             spriteBatch.Begin();
 
@@ -132,24 +132,34 @@ namespace PAC_SAMURAI
                         case '1':
                             spriteBatch.Draw(mur.Texture, coord, Color.Black);
                             break;
+                        //Pourquoi le '2'?
+                        case '2':
+                            spriteBatch.Draw(mur.Texture, coord, Color.Black);
+                            break;
                         case 'S':
                             spriteBatch.Draw(sushi.Texture, coord, Color.White);
                             break;
                         case 'M':
                             spriteBatch.Draw(maki.Texture, coord, Color.White);
                             break;
-                        case 'P':
-                            spriteBatch.Draw(pacSamourai.Texture, coord, Color.White);
-                            break;
                         case 'B':
                             spriteBatch.Draw(cerises.Texture, coord, Color.White);
                             break;
-                        case '2':
-                            spriteBatch.Draw(mur.Texture, coord, Color.Black);
+                        case 'F':
+                            spriteBatch.Draw(fantomeBleu.Texture, coord, Color.White);
                             break;
-                        //case 'F':
-                            //spriteBatch.Draw(fantomeN.Texture[3], coord, Color.White);
-                            //break;
+                        case 'R':
+                            spriteBatch.Draw(fantomeRose.Texture, coord, Color.White);
+                            break;
+                        case 'Q':
+                            spriteBatch.Draw(fantomeRouge.Texture, coord, Color.White);
+                            break;
+                        case 'V':
+                            spriteBatch.Draw(fantomeVert.Texture, coord, Color.White);
+                            break;
+                        case 'P':
+                            spriteBatch.Draw(pacSamourai.Texture, coord, Color.White);
+                            break;
                     }
                 }
             }
@@ -158,11 +168,12 @@ namespace PAC_SAMURAI
             String texteVie = String.Format("Vie : {0}", pacSamourai.Vies);
             String texteScore = String.Format("Score : {0}", pacSamourai.Score);
             spriteBatch.DrawString(font, texteVie, new Vector2(10, 32 * 22), Color.White);
-            spriteBatch.DrawString(font, texteScore, new Vector2(4*32, 22*32), Color.White);
+            spriteBatch.DrawString(font, texteScore, new Vector2(4 * 32, 22 * 32), Color.White);
 
             spriteBatch.End();
         }
 
+        //Affichage des bonus
         public void drawBonus(Random aleatoire)
         {
             char bonusChoisi = GenerateurBonus.recupererBonus(aleatoire);
@@ -171,17 +182,18 @@ namespace PAC_SAMURAI
             {
                 //On récupère les cases vides ou il est possible de poser un bonus
                 List<Vector2> positionsPossiblesBonus = new List<Vector2>();
+
                 for (int x = 0; x < MaxMapX; x++)
                 {
                     for (int y = 0; y < MaxMapY; y++)
                     {
                         if ('1'.Equals(MapGame[x, y]))
                         {
-                            //TODO : mettre list en var globale et si tab existe pas on insère pas ???
                             positionsPossiblesBonus.Add(new Vector2(x, y));
                         }
                     }
                 }
+
                 if (positionsPossiblesBonus.Count != 0)
                 {
                     int position = aleatoire.Next(0, positionsPossiblesBonus.Count);
@@ -190,21 +202,16 @@ namespace PAC_SAMURAI
                     xBonus = (int)caseBonus.X;
                     yBonus = (int)caseBonus.Y;
 
+                    //On modifie la Map afin quelle prenne en compte le bonus
                     this.MapGame[xBonus, yBonus] = 'B';
-
                 }
-            }
-
-            
-            
+            }    
         }
 
+        //Remove des bonus
         public void removeBonus()
         {
             this.MapGame[xBonus, yBonus] = '1';
-
         }
-
-
     }
 }

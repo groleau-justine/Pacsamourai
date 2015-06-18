@@ -9,7 +9,10 @@ namespace PAC_SAMURAI
     class Timers
     {
         private float timer;
+        private float timerMortPac;
         private float timerBonus;
+        private float timerFantome;
+        private float timerPeur;
         private Boolean bonus;
         private Map map;
 
@@ -22,14 +25,15 @@ namespace PAC_SAMURAI
         }
 
         /**
-            * Fonction gérant le timer pour le mode invincible contre les fantômes
-            * Elle incrémente le timer et renvoie un boolean pour indiquer s'il 
-            * est écoulé ou pas
-            */
+         * Fonction gérant le timer pour le mode invincible contre les fantômes
+         * Elle incrémente le timer et renvoie un boolean pour indiquer s'il 
+         * est écoulé ou pas.
+         */
         public Boolean gererTimerInvincible(GameTime gameTime)
         {
             float timeElapsed = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             timer += timeElapsed;
+
             if (timer > 5000)
             {
                 timer = 0f;
@@ -44,7 +48,7 @@ namespace PAC_SAMURAI
         /**
          * Fonction gérant le timer pour les bonus
          * Elle incrémente le timer et renvoie un boolean pour indiquer s'il 
-         * est écoulé ou pas
+         * est écoulé ou pas.
          */
         public void lancerTimerBonus(GameTime gameTime)
         {
@@ -67,6 +71,69 @@ namespace PAC_SAMURAI
                     map.drawBonus(aleatoire);
                     bonus = true;
                 }
+            }
+        }
+
+        /**
+         * Fonction gérant le timer pour les fantômes
+         * Elle incrémente le timer et renvoie un boolean pour indiquer s'il 
+         * est écoulé ou pas.
+         */
+        public void lancerTimerFantome(GameTime gameTime, Fantome fantomeBleu, Fantome fantomeRose, Fantome fantomeRouge, Fantome fantomeVert)
+        {
+            float timeElapsed = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            timerFantome += timeElapsed;
+
+            if (timerFantome > 500)
+            {
+                timerFantome = 0f;
+                fantomeBleu.GoFantome = true;
+                fantomeRose.GoFantome = true;
+                fantomeRouge.GoFantome = true;
+                fantomeVert.GoFantome = true;
+            }
+        }
+
+        /**
+         * Fonction gérant le timer pour le mode peur des fantômes
+         * Elle incrémente le timer et renvoie un boolean pour indiquer s'il 
+         * est écoulé ou pas.
+         */
+        public Boolean gererTimerPeur(GameTime gameTime)
+        {
+            float timeElapsed = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            timerPeur += timeElapsed;
+
+            if (timerPeur > 5000)
+            {
+                timer = 0f;
+                return false;
+            }
+            else
+            {
+                timerFantome = 0f;
+                return true;
+            }
+        }
+
+        /**
+         * Fonction gérant le timer pour le mode mort du pacman
+         * Elle incrémente le timer et renvoie un boolean pour indiquer s'il 
+         * est écoulé ou pas.
+         */
+        public Boolean gererTimerMort(GameTime gameTime)
+        {
+            float timeElapsed = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            timerMortPac += timeElapsed;
+
+            if (timerMortPac > 5000)
+            {
+                timer = 0f;
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }

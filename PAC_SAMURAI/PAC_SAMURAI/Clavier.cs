@@ -26,7 +26,7 @@ namespace PAC_SAMURAI
 
         public void gererDeplacement(int x, int y, GameTime gameTime)
         {           
-            pacsamurai.setPosition(x, y,gameTime);
+            pacsamurai.setPosition(x, y, gameTime);
         }
 
         public void update(GameTime gameTime)
@@ -47,6 +47,7 @@ namespace PAC_SAMURAI
             //Si la touche flèche du bas a été appuyé
             if (newState.IsKeyDown(Keys.Down) && !oldState.IsKeyDown(Keys.Down))
             {
+                //On va en bas
                 int x = 1, y = 0;
                 gererDeplacement(x, y, gameTime);  
             }
@@ -54,6 +55,7 @@ namespace PAC_SAMURAI
             //Si la touche flèche de gauche a été appuyé
             if (newState.IsKeyDown(Keys.Left) && !oldState.IsKeyDown(Keys.Left))
             {
+                //On va à gauche
                 int x = 0, y = -1;
                 gererDeplacement(x, y, gameTime); 
             }
@@ -61,15 +63,12 @@ namespace PAC_SAMURAI
             //Si la touche flèche de droite a été appuyé
             if (newState.IsKeyDown(Keys.Right) && !oldState.IsKeyDown(Keys.Right))
             {
+                //On va à droite
                 int x = 0, y = 1;
                 gererDeplacement(x, y, gameTime); 
             }
 
             oldState = newState;
         }
-
-       
-
-     
     }
 }
