@@ -30,9 +30,23 @@ namespace PAC_SAMURAI
         //Gestion clavier
         private KeyboardState oldState;
         private Clavier clavier;
-        private SpriteFont font;
+
+        //Ecritures
+        private SpriteFont font, menuFont;
         
         private Timers timer;
+
+        enum GameState
+        {
+            menuScreen, gameScreen, wonScreen, lostScreen, scoreScreen, commandScreen
+        }
+        GameState state, previousState;
+
+        //mouse pressed 
+        Boolean mpressed;
+
+        //mouse location in window
+        int mx, my;
 
         public Pacsamourai()
         {
@@ -62,6 +76,21 @@ namespace PAC_SAMURAI
             //Initialisation d'un objet timer
             this.timer = new Timers(useMap);
 
+            //Gestion menu
+            if (previousState == GameState.lostScreen)
+            {
+                state = GameState.lostScreen;
+
+            }
+            else if (previousState == GameState.wonScreen)
+            {
+                state = GameState.wonScreen;
+
+            }else{
+                state = GameState.menuScreen;
+            }
+            
+            
         }
 
         /// <summary>
@@ -135,6 +164,7 @@ namespace PAC_SAMURAI
             pacSamourai = new Pacsamurai(texturePacSamourai, textureInvPacSamourai, useMap);
             
             font = Content.Load<SpriteFont>("FontPacsamurai");
+            menuFont = Content.Load<SpriteFont>("fontMenu");
         }
 
         /// <summary>
@@ -156,7 +186,75 @@ namespace PAC_SAMURAI
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
+            
+            //Gestion souris : associée au menu
+            MouseState mouse_state = Mouse.GetState();
+            mx = mouse_state.X;
+            my = mouse_state.Y;
+            mpressed = mouse_state.LeftButton == ButtonState.Pressed;
 
+            ////// TODO. PS : penser à réinitialiser toutes les valeurs puisqu'on peut rejouer
+            // Si le joueur a gagné
+            /* if ()
+             {
+                 previousState = GameState.wonScreen;
+                 Initialize();
+             }*/
+            //Si le joueur a perdu
+            if (pacSamourai.Vies ==0)
+            {
+                previousState = GameState.lostScreen;
+                Initialize();
+            }
+
+            // Gestion du menu
+            switch(state){
+                case GameState.menuScreen:
+                    UpdateMenuScreen();
+                    break;
+                case GameState.gameScreen:
+                    UpdateGamePlay(gameTime);
+                    break;
+                case GameState.wonScreen:
+                    UpdateMenuScreen();
+                    break;
+                case GameState.lostScreen:
+                    UpdateMenuScreen();
+                    break;
+                case GameState.commandScreen:
+                    UpdateCommandScreen();
+                    break;
+                case GameState.scoreScreen:
+                    UpdateScoreScreen();
+                    break;
+            }
+
+            // TODO: Add your update logic here
+            base.Update(gameTime);
+          
+        }
+
+        private void UpdateMenuScreen()
+        {
+            if (mpressed && isClickButton(mx, my, 258, 284, 154, 44))
+            {
+                state = GameState.gameScreen;
+            }
+
+            if (mpressed && isClickButton(mx, my, 164, 376, 343, 45))
+            {
+                state = GameState.commandScreen;
+            }
+
+            if (mpressed && isClickButton(mx, my, 242, 583, 186, 49))
+            {
+                 this.Exit();
+            }
+        }
+
+        private void UpdateGamePlay(GameTime gameTime)
+        {
+  
             // Gestion du clavier
             clavier.update(gameTime);
 
@@ -299,10 +397,20 @@ namespace PAC_SAMURAI
                 pacSamourai.MortDePac = false;
                 pacSamourai.IsMort = timer.gererTimerMort(gameTime);
             }
+        }
 
-            // TODO: Add your update logic here
-            base.Update(gameTime);
-          
+        private void UpdateCommandScreen()
+        {
+            if (mpressed && isClickButton(mx, my, 469, 678, 144, 34))
+            {
+                state = GameState.menuScreen;
+            }
+
+        }
+
+        private void UpdateScoreScreen()
+        {
+            //TODO
         }
 
         /// <summary>
@@ -312,12 +420,111 @@ namespace PAC_SAMURAI
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
+        
             // TODO: Add your drawing code here
             // Affichage de la MAP
-            useMap.showMap(spriteBatch, mur, pacSamourai, fantomeBleu, fantomeRose, fantomeRouge, fantomeVert, sushi, maki, cerises, font);
+            spriteBatch.Begin();
+
+            // Gestion du menu
+            switch (state)
+            {
+                case GameState.menuScreen:
+                    spriteBatch.Draw(Content.Load<Texture2D>("menu"), GraphicsDevice.Viewport.TitleSafeArea, Color.White);
+                    break;
+                case GameState.gameScreen:
+                    DrawGamePlay();
+                    break;
+                case GameState.wonScreen:
+                    spriteBatch.Draw(Content.Load<Texture2D>("menuGagne"), GraphicsDevice.Viewport.TitleSafeArea, Color.White);
+                    break;
+                 case GameState.lostScreen:
+                    spriteBatch.Draw(Content.Load<Texture2D>("menuPerdu"), GraphicsDevice.Viewport.TitleSafeArea, Color.White);
+                    break;
+                 case GameState.commandScreen:
+                    spriteBatch.Draw(Content.Load<Texture2D>("menuCommandes"), GraphicsDevice.Viewport.TitleSafeArea, Color.White);
+                    break;
+                 case GameState.scoreScreen:
+                    // TODO
+                    break;
+            }
+            
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
+
+        private void DrawGamePlay()
+        {
+            //Tailles des tiles de la MAP
+            const int tailleWidth = 32;
+            const int tailleHeight = 32;
+
+            //Chargement des textures de la MAP d'après le fichier .txt chargé
+            for (int x = 0; x < useMap.MaxMapX; x++)
+            {
+                for (int y = 0; y < useMap.MaxMapY; y++)
+                {
+                    Vector2 coord = new Vector2(y * tailleWidth, x * tailleHeight);
+
+                    switch (useMap.MapGame[x, y])
+                    {
+                        case '0':
+                            spriteBatch.Draw(mur.Texture, coord, Color.White);
+                            break;
+                        case '1':
+                            spriteBatch.Draw(mur.Texture, coord, Color.Black);
+                            break;
+                        //Pourquoi le '2'?
+                        case '2':
+                            spriteBatch.Draw(mur.Texture, coord, Color.Black);
+                            break;
+                        case 'S':
+                            spriteBatch.Draw(sushi.Texture, coord, Color.White);
+                            break;
+                        case 'M':
+                            spriteBatch.Draw(maki.Texture, coord, Color.White);
+                            break;
+                        case 'B':
+                            spriteBatch.Draw(cerises.Texture, coord, Color.White);
+                            break;
+                        case 'F':
+                            spriteBatch.Draw(fantomeBleu.Texture, coord, Color.White);
+                            break;
+                        case 'R':
+                            spriteBatch.Draw(fantomeRose.Texture, coord, Color.White);
+                            break;
+                        case 'Q':
+                            spriteBatch.Draw(fantomeRouge.Texture, coord, Color.White);
+                            break;
+                        case 'V':
+                            spriteBatch.Draw(fantomeVert.Texture, coord, Color.White);
+                            break;
+                        case 'P':
+                            spriteBatch.Draw(pacSamourai.Texture, coord, Color.White);
+                            break;
+                    }
+                }
+            }
+
+            //Affichage du texte dans le jeu          
+            String texteVie = String.Format("Vie : {0}", pacSamourai.Vies);
+            String texteScore = String.Format("Score : {0}", pacSamourai.Score);
+            spriteBatch.DrawString(font, texteVie, new Vector2(10, 32 * 22), Color.White);
+            spriteBatch.DrawString(font, texteScore, new Vector2(4 * 32, 22 * 32), Color.White);
+        }
+
+
+        private Boolean isClickButton(float mx, float my, int xBouton, int yBouton, int widthBouton, int heightBouton)
+        {
+            if (mx >= xBouton && mx <= xBouton + widthBouton && my >= yBouton && my <= yBouton + heightBouton)
+            {
+                return true;
+            }
+            else { 
+                return false; 
+            }
+        }
+        
     }
 }

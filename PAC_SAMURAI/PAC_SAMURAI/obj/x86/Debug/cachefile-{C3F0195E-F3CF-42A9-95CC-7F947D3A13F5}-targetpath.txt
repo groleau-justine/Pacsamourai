@@ -18,9 +18,15 @@ Content\pacsamourai_gaucheIO.xnb
 Content\pacsamourai_hautI.xnb
 Content\pacsamourai_hautIO.xnb
 Content\cerises.xnb
-Content\FontPacsamurai.xnb
 Content\FantomePeur.xnb
 Content\fantomeBleu.xnb
 Content\fantomeRose.xnb
 Content\fantomeRouge.xnb
 Content\fantomeVert.xnb
+Content\FontPacsamurai.xnb
+Content\fontMenu.xnb
+Content\jouer.xnb
+Content\menu.xnb
+Content\menuGagne.xnb
+Content\menuPerdu.xnb
+Content\menuCommandes.xnb

@@ -11,10 +11,7 @@ namespace PAC_SAMURAI
     //Classe contenant les méthodes afin de créer et d'afficher la MAP
     public class Map
     {
-        //Tailles des tiles de la MAP
-        const int tailleWidth = 32;
-        const int tailleHeight = 32;
-
+        
         private int level;
         private String nameLevel;
 
@@ -112,66 +109,6 @@ namespace PAC_SAMURAI
             }
         }
 
-        //Afficher la MAP d'après le fichier .txt chargée précédemment
-        public void showMap(SpriteBatch spriteBatch, Objet mur, Pacsamurai pacSamourai, Fantome fantomeBleu, Fantome fantomeRose, Fantome fantomeRouge, Fantome fantomeVert, Objet sushi, Objet maki, Objet cerises, SpriteFont font)
-        {
-            spriteBatch.Begin();
-
-            //Chargement des textures de la MAP
-            for (int x = 0; x < MaxMapX; x++)
-            {
-                for (int y = 0; y < MaxMapY; y++)
-                {
-                    Vector2 coord = new Vector2(y * tailleWidth, x * tailleHeight);
-
-                    switch (MapGame[x, y])
-                    {
-                        case '0':
-                            spriteBatch.Draw(mur.Texture, coord, Color.White);
-                            break;
-                        case '1':
-                            spriteBatch.Draw(mur.Texture, coord, Color.Black);
-                            break;
-                        //Pourquoi le '2'?
-                        case '2':
-                            spriteBatch.Draw(mur.Texture, coord, Color.Black);
-                            break;
-                        case 'S':
-                            spriteBatch.Draw(sushi.Texture, coord, Color.White);
-                            break;
-                        case 'M':
-                            spriteBatch.Draw(maki.Texture, coord, Color.White);
-                            break;
-                        case 'B':
-                            spriteBatch.Draw(cerises.Texture, coord, Color.White);
-                            break;
-                        case 'F':
-                            spriteBatch.Draw(fantomeBleu.Texture, coord, Color.White);
-                            break;
-                        case 'R':
-                            spriteBatch.Draw(fantomeRose.Texture, coord, Color.White);
-                            break;
-                        case 'Q':
-                            spriteBatch.Draw(fantomeRouge.Texture, coord, Color.White);
-                            break;
-                        case 'V':
-                            spriteBatch.Draw(fantomeVert.Texture, coord, Color.White);
-                            break;
-                        case 'P':
-                            spriteBatch.Draw(pacSamourai.Texture, coord, Color.White);
-                            break;
-                    }
-                }
-            }
-
-            //Affichage du texte dans le jeu          
-            String texteVie = String.Format("Vie : {0}", pacSamourai.Vies);
-            String texteScore = String.Format("Score : {0}", pacSamourai.Score);
-            spriteBatch.DrawString(font, texteVie, new Vector2(10, 32 * 22), Color.White);
-            spriteBatch.DrawString(font, texteScore, new Vector2(4 * 32, 22 * 32), Color.White);
-
-            spriteBatch.End();
-        }
 
         //Affichage des bonus
         public void drawBonus(Random aleatoire)
@@ -213,5 +150,7 @@ namespace PAC_SAMURAI
         {
             this.MapGame[xBonus, yBonus] = '1';
         }
+
+        
     }
 }
