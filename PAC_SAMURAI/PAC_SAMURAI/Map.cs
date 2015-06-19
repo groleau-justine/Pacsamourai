@@ -22,15 +22,9 @@ namespace PAC_SAMURAI
         //Données de la MAP
         private char[,] mapGame;
 
-        Boolean bonus;
+        private Boolean bonus;
         private int xBonus;
         private int yBonus;
-
-        public Boolean Bonus
-        {
-            get { return bonus; }
-            set { bonus = value; }
-        }
 
         public Map(int level)
         {
@@ -113,6 +107,7 @@ namespace PAC_SAMURAI
         //Affichage des bonus
         public void drawBonus(Random aleatoire)
         {
+            bonus = false;
             char bonusChoisi = GenerateurBonus.recupererBonus(aleatoire);
 
             if (!bonusChoisi.Equals('v'))
@@ -141,6 +136,7 @@ namespace PAC_SAMURAI
 
                     //On modifie la Map afin quelle prenne en compte le bonus
                     this.MapGame[xBonus, yBonus] = 'B';
+                    bonus = true;
                 }
             }    
         }
@@ -148,7 +144,10 @@ namespace PAC_SAMURAI
         //Remove des bonus
         public void removeBonus()
         {
-            this.MapGame[xBonus, yBonus] = '1';
+            if(bonus){
+                this.MapGame[xBonus, yBonus] = '1';
+            }
+            
         }
 
         
