@@ -19,6 +19,7 @@ namespace PAC_SAMURAI
         private Boolean invincible;
         private Boolean mortDePac;
         private Boolean isMort;
+        private Boolean endOfTheGame;
 
         private Map map;
         private Timers timer;
@@ -52,6 +53,7 @@ namespace PAC_SAMURAI
             }
             this.timer = new Timers(map);
             this.invincible = false;
+            this.endOfTheGame = false;
 
             fantomePeur = new List<char>();
             posFantomePeur = new List<Point>();
@@ -101,6 +103,12 @@ namespace PAC_SAMURAI
             set { score = value; }
         }
 
+        public int LastPalier
+        {
+            get { return lastPalier; }
+            set { lastPalier = value; }
+        }
+
         public Boolean MortDePac
         {
             get { return mortDePac; }
@@ -111,6 +119,12 @@ namespace PAC_SAMURAI
         {
             get { return isMort; }
             set { isMort = value; }
+        }
+
+        public Boolean EndOfTheGame
+        {
+            get { return endOfTheGame; }
+            set { endOfTheGame = value; }
         }
 
         public Timers Timer
@@ -236,7 +250,7 @@ namespace PAC_SAMURAI
             {
                 char caseMap = map.MapGame[sonX + x, sonY + y];
                 List<Texture2D> listeTextures;
-                
+
                 switch (caseMap)
                 {
                     // Gestion du score incrémenté par 10 (sushi)
@@ -320,7 +334,28 @@ namespace PAC_SAMURAI
 
                 //On déplace Pacsamourai à ses nouvelles coordonnées
                 map.MapGame[sonX, sonY] = 'P';
+
+                // Vérifie si le joueur a gagné sa partie
+                endOfTheGame = isEndOfTheGame();
             }
+        }
+
+        // Vérifie si le joueur a gagné la partie
+        private Boolean isEndOfTheGame()
+        {
+            Boolean isEnd = true;
+            for (int x = 0; x < map.MaxMapX; x++)
+            {
+                for (int y = 0; y < map.MaxMapY; y++)
+                {
+                    if (map.MapGame[x, y] == 'S')
+                    {
+                        isEnd = false;
+                    }
+                }
+            }
+
+            return isEnd;
         }
 
         // Vérifie si la position du pacsamurai est bien dans la map

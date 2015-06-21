@@ -82,12 +82,12 @@ namespace PAC_SAMURAI
          * Elle incrémente le timer et renvoie un boolean pour indiquer s'il 
          * est écoulé ou pas.
          */
-        public Boolean lancerTimerFantome(GameTime gameTime)
+        public Boolean lancerTimerFantome(GameTime gameTime, int better)
         {
             float timeElapsed = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             timerFantome += timeElapsed;
 
-            if (timerFantome > 500)
+            if (timerFantome > better)
             {
                 timerFantome = 0f;
                 return true;
@@ -110,7 +110,7 @@ namespace PAC_SAMURAI
 
             if (timerPeur > 5000)
             {
-                timer = 0f;
+                timerPeur = 0f;
                 return false;
             }
             else
@@ -132,7 +132,7 @@ namespace PAC_SAMURAI
 
             if (timerMortPac > 5000)
             {
-                timer = 0f;
+                timerMortPac = 0f;
                 return false;
             }
             else

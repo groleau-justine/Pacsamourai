@@ -23,10 +23,11 @@ Content\fantomeBleu.xnb
 Content\fantomeRose.xnb
 Content\fantomeRouge.xnb
 Content\fantomeVert.xnb
-Content\FontPacsamurai.xnb
-Content\fontMenu.xnb
 Content\jouer.xnb
 Content\menu.xnb
 Content\menuGagne.xnb
 Content\menuPerdu.xnb
 Content\menuCommandes.xnb
+Content\FontPacsamurai.xnb
+Content\fontMenu.xnb
+Content\pacsamourai_mort.xnb

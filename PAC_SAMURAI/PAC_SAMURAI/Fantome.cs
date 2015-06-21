@@ -122,12 +122,13 @@ namespace PAC_SAMURAI
             {
                 texture = base.ListeTextures[0];
             }
+
             return texture;
         }
 
         //Fonction de mise à jour des positions du PacSamurai et du Fantome
-        private void mAJPositions() {
-
+        private void mAJPositions()
+        {
             for (int x = 0; x < useMap.MaxMapX; x++)
             {
                 for (int y = 0; y < useMap.MaxMapY; y++)
@@ -184,7 +185,6 @@ namespace PAC_SAMURAI
             }
 
             return mortDePac;
-
         }
 
         //Fonction contenant l'IA attaquante
@@ -312,14 +312,6 @@ namespace PAC_SAMURAI
                     useMap.MapGame[positionXFantome, positionYFantome] = typeFantome;
                 }
             }
-            return mortDePac;
-        }
-
-        //Fonction contenant l'IA bloquante
-        private Boolean fantomeIABlock()
-        {
-            Boolean mortDePac = false;
-
             return mortDePac;
         }
 
@@ -513,7 +505,7 @@ namespace PAC_SAMURAI
             return mortDePac;
         }
 
-        ////Fonction de mise à jour des possibilités de déplacement
+        //Fonction de mise à jour des possibilités de déplacement
         private List<string> mAJDepAlea(int positionXFantome, int positionYFantome)
         {
             Boolean continuerMove = true, exitChoice = false, secondeChoice = false;

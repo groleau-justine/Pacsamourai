@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace PAC_SAMURAI
@@ -23,7 +24,9 @@ namespace PAC_SAMURAI
 
         private Fantome fantomeBleu, fantomeRose, fantomeRouge, fantomeVert;
         private Pacsamurai pacSamourai;
-        
+        private int scoreGame, lastPalier, viePac, better = 500;
+        private Boolean endOfTheGame = false;
+
         private Objet mur;
         private Objet sushi, maki, cerises;
 
@@ -42,10 +45,10 @@ namespace PAC_SAMURAI
         }
         GameState state, previousState;
 
-        //mouse pressed 
+        //Mouse pressed 
         Boolean mpressed;
 
-        //mouse location in window
+        //Mouse location in window
         int mx, my;
 
         public Pacsamourai()
@@ -80,13 +83,13 @@ namespace PAC_SAMURAI
             if (previousState == GameState.lostScreen)
             {
                 state = GameState.lostScreen;
-
             }
             else if (previousState == GameState.wonScreen)
             {
                 state = GameState.wonScreen;
-
-            }else{
+            }
+            else
+            {
                 state = GameState.menuScreen;
             }
         }
@@ -113,7 +116,15 @@ namespace PAC_SAMURAI
             // Chargement des dimensions de la fenêtre de jeu
             graphics.PreferredBackBufferWidth = 21*32;
             graphics.PreferredBackBufferHeight = 770;
-            graphics.ApplyChanges();
+
+            try
+            {
+                graphics.ApplyChanges();
+            }
+            catch (Exception e)
+            {
+                e.ToString();
+            }
 
             // Read the file and put it in useMap
             // Chargement des textures et du fichier de la MAP
@@ -156,6 +167,7 @@ namespace PAC_SAMURAI
 
             useMap.loadMap();
 
+            //Création du pacSamurai et des fantômes 
             fantomeBleu = new Fantome(textureFantomeBleu, textureInvFantome, 1, 'F', useMap);
             fantomeRose = new Fantome(textureFantomeRose, textureInvFantome, 2, 'R', useMap);
             fantomeRouge = new Fantome(textureFantomeRouge, textureInvFantome, 3, 'Q', useMap);
@@ -173,6 +185,14 @@ namespace PAC_SAMURAI
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+
+            // Enregistre le score dans le fichier des scores lors de la fermeture de la fenêtre de jeu
+            // Ce code est utilisé lorsqu'un joueur gagne une partie puis ferme le jeu avant d'avoir perdu
+            if (endOfTheGame)
+            {
+                UpdateFileScore(scoreGame);
+                endOfTheGame = false;
+            }
         }
 
         /// <summary>
@@ -184,7 +204,9 @@ namespace PAC_SAMURAI
         {
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            {
                 this.Exit();
+            }
             
             //Gestion souris : associée au menu
             MouseState mouse_state = Mouse.GetState();
@@ -192,22 +214,42 @@ namespace PAC_SAMURAI
             my = mouse_state.Y;
             mpressed = mouse_state.LeftButton == ButtonState.Pressed;
 
-            ////// TODO. PS : penser à réinitialiser toutes les valeurs puisqu'on peut rejouer
-            // Si le joueur a gagné
-            /* if ()
-             {
-                 previousState = GameState.wonScreen;
-                 Initialize();
-             }*/
-            //Si le joueur a perdu
-            if (pacSamourai.Vies == 0)
+            // Lorsque le joueur a gagné
+            if (pacSamourai.EndOfTheGame)
+            {
+                previousState = GameState.wonScreen;
+                //Enregistre le score et le nombre de vies entre les parties
+                scoreGame = pacSamourai.Score;
+                lastPalier = pacSamourai.LastPalier;
+                viePac = pacSamourai.Vies;
+
+                Initialize();
+
+                //Remet en place le score et le nombre de vies si le joueur recommence une partie après avoir gagné
+                pacSamourai.Score = scoreGame;
+                pacSamourai.LastPalier = lastPalier;
+                pacSamourai.Vies = viePac;
+
+                //Augmente la vitesse des fantômes
+                better += 100;
+                endOfTheGame = true;
+            }
+            // Lorsque le joueur a perdu
+            else if (pacSamourai.Vies == 0)
             {
                 previousState = GameState.lostScreen;
+                //Mise à jour du fichier des scores
+                UpdateFileScore(pacSamourai.Score);
                 Initialize();
+
+                //Réinitialise la vitesse des fantômes
+                better = 500;
+                endOfTheGame = false;
             }
 
             // Gestion du menu
-            switch(state){
+            switch (state)
+            {
                 case GameState.menuScreen:
                     UpdateMenuScreen();
                     break;
@@ -228,29 +270,31 @@ namespace PAC_SAMURAI
                     break;
             }
 
-            // TODO: Add your update logic here
             base.Update(gameTime);
-          
         }
 
+        // Fonction permettant de gérer les clicks sur le menu principal
         private void UpdateMenuScreen()
         {
             if (mpressed && isClickButton(mx, my, 258, 284, 154, 44))
             {
                 state = GameState.gameScreen;
             }
-
-            if (mpressed && isClickButton(mx, my, 164, 376, 343, 45))
+            else if (mpressed && isClickButton(mx, my, 164, 376, 343, 45))
             {
                 state = GameState.commandScreen;
             }
-
-            if (mpressed && isClickButton(mx, my, 242, 583, 186, 49))
+            else if (mpressed && isClickButton(mx, my, 245, 480, 182, 44))
+            {
+                state = GameState.scoreScreen;
+            }
+            else if (mpressed && isClickButton(mx, my, 242, 583, 186, 49))
             {
                  this.Exit();
             }
         }
 
+        // Fonction Update du jeu Pacsamurai
         private void UpdateGamePlay(GameTime gameTime)
         {
             // Gestion du clavier
@@ -274,11 +318,13 @@ namespace PAC_SAMURAI
                 pacSamourai.IsMort = pacSamourai.Timer.gererTimerMort(gameTime);
                 if (pacSamourai.IsMort)
                 {
+                    pacSamourai.Texture = pacSamourai.ListeTextures[8];
                     useMap.MapGame[pacSamourai.SonX, pacSamourai.SonY] = 'P';
                 }
                 else
                 {
                     pacSamourai.Texture = pacSamourai.ListeTextures[pacSamourai.NumTexture];
+                    pacSamourai.IsMort = false;
                 }
             }
             else
@@ -299,7 +345,7 @@ namespace PAC_SAMURAI
             if (!fantomeBleu.IsPeur)
             {
                 // Timer qui permet de gérer le temps entre deux actions des fantômes
-                if (fantomeBleu.Timer.lancerTimerFantome(gameTime))
+                if (fantomeBleu.Timer.lancerTimerFantome(gameTime, better))
                 {
                     if (fantomeBleu.choixFantomeIA() && !pacSamourai.IsMort)
                     {
@@ -336,7 +382,7 @@ namespace PAC_SAMURAI
             if (!fantomeRose.IsPeur)
             {
                 // Timer qui permet de gérer le temps entre deux actions des fantômes
-                if (fantomeRose.Timer.lancerTimerFantome(gameTime))
+                if (fantomeRose.Timer.lancerTimerFantome(gameTime, better))
                 {
                     if (fantomeRose.choixFantomeIA() && !pacSamourai.IsMort)
                     {
@@ -373,7 +419,7 @@ namespace PAC_SAMURAI
             if (!fantomeRouge.IsPeur)
             {
                 // Timer qui permet de gérer le temps entre deux actions des fantômes
-                if (fantomeRouge.Timer.lancerTimerFantome(gameTime))
+                if (fantomeRouge.Timer.lancerTimerFantome(gameTime, better))
                 {
                     if (fantomeRouge.choixFantomeIA() && !pacSamourai.IsMort)
                     {
@@ -410,7 +456,7 @@ namespace PAC_SAMURAI
             if (!fantomeVert.IsPeur)
             {
                 // Timer qui permet de gérer le temps entre deux actions des fantômes
-                if (fantomeVert.Timer.lancerTimerFantome(gameTime))
+                if (fantomeVert.Timer.lancerTimerFantome(gameTime, better))
                 {
                     if (fantomeVert.choixFantomeIA() && !pacSamourai.IsMort)
                     {
@@ -437,6 +483,7 @@ namespace PAC_SAMURAI
                 }
             }
 
+            //Si le Pacsamurai a perdu une vie mais n'était pas déjà mort
             if (pacSamourai.MortDePac && !pacSamourai.IsMort)
             {
                 pacSamourai.Vies--;
@@ -446,6 +493,7 @@ namespace PAC_SAMURAI
             }
         }
 
+        // Fonction permettant de gérer les clicks sur le menu commande
         private void UpdateCommandScreen()
         {
             if (mpressed && isClickButton(mx, my, 469, 678, 144, 34))
@@ -454,9 +502,104 @@ namespace PAC_SAMURAI
             }
         }
 
+        //Mise à jour du fichier des scores
+        private void UpdateFileScore(int score)
+        {
+            //Nom du dossier contenant le fichier des scores
+            string pathString = @"Content/scores/scores.txt";
+
+            if (!File.Exists(pathString))
+            {
+                File.WriteAllText(pathString, score.ToString());
+            }
+            else
+            {
+                File.AppendAllText(pathString, " ");
+                File.AppendAllText(pathString, score.ToString());
+            }
+        }
+
+        // Fonction permettant de créer le menu score
+        private void CreateScoreScreen()
+        {
+            //Nom du dossier contenant le fichier des scores
+            string pathString = @"Content/scores/scores.txt";
+
+            //Si le fichier score existe
+            if (File.Exists(pathString))
+            {
+                List<int> scores = new List<int>();
+                //Lecture du fichier des scores et affichage dans le menu scores
+                using (StreamReader reader = new StreamReader(pathString))
+                {
+                    string score;
+                    while ((score = reader.ReadLine()) != null)
+                    {
+                        string[] strings = score.Split(' ');
+                        for (int i = 0; i < strings.Length; i++)
+                        {
+                            scores.Add(int.Parse(strings[i]));
+                        }
+                    }
+                }
+                scores.Sort();
+                scores.Reverse();
+
+                //Affichage du titre "Scores"
+                try
+                {
+                    spriteBatch.DrawString(menuFont, "Scores", new Vector2(200, 20), Color.White);
+                }
+                catch (Exception e)
+                {
+                    e.ToString();
+                }
+
+                int k = 1;
+                //Affichage des dix meilleurs scores
+                while (k <= scores.Count && k <= 10)
+                {
+                    string score;
+                    if (scores[k - 1] != 0)
+                    {
+                        score = k + " : " + scores[k - 1].ToString() + " points";
+                    }
+                    else
+                    {
+                        score = k + " : " + scores[k - 1].ToString() + " point";
+                    }
+
+                    try
+                    {
+                        spriteBatch.DrawString(font, score, new Vector2(245, (k - 1) * 50 + 200), Color.White);
+                    }
+                    catch (Exception e)
+                    {
+                        e.ToString();
+                    }
+
+                    k++;
+                }
+
+                //Affichage du "Retour"
+                try
+                {
+                    spriteBatch.DrawString(font, "Retour", new Vector2(535, 700), Color.White);
+                }
+                catch (Exception e)
+                {
+                    e.ToString();
+                }
+            }
+        }
+
+        // Fonction permettant de gérer les clicks sur le menu score
         private void UpdateScoreScreen()
         {
-            //TODO
+            if (mpressed && isClickButton(mx, my, 536, 700, 87, 25))
+            {
+                state = GameState.menuScreen;
+            }
         }
 
         /// <summary>
@@ -466,9 +609,7 @@ namespace PAC_SAMURAI
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-        
-            // TODO: Add your drawing code here
-            // Affichage de la MAP
+            
             spriteBatch.Begin();
 
             // Gestion du menu
@@ -490,7 +631,7 @@ namespace PAC_SAMURAI
                     spriteBatch.Draw(Content.Load<Texture2D>("menuCommandes"), GraphicsDevice.Viewport.TitleSafeArea, Color.White);
                     break;
                 case GameState.scoreScreen:
-                    // TODO
+                    CreateScoreScreen();
                     break;
             }
             
@@ -499,6 +640,7 @@ namespace PAC_SAMURAI
             base.Draw(gameTime);
         }
 
+        //Fonction qui affiche la map
         private void DrawGamePlay()
         {
             //Tailles des tiles de la MAP
@@ -559,14 +701,15 @@ namespace PAC_SAMURAI
             spriteBatch.DrawString(font, texteScore, new Vector2(4 * 32, 22 * 32), Color.White);
         }
 
-
+        //Gérer le click droit sur les différents menus
         private Boolean isClickButton(float mx, float my, int xBouton, int yBouton, int widthBouton, int heightBouton)
         {
             if (mx >= xBouton && mx <= xBouton + widthBouton && my >= yBouton && my <= yBouton + heightBouton)
             {
                 return true;
             }
-            else { 
+            else
+            { 
                 return false; 
             }
         }

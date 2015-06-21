@@ -142,7 +142,7 @@ namespace PAC_SAMURAI
         //Remove des bonus
         public void removeBonus()
         {
-            if(bonus)
+            if (bonus)
             {
                 this.MapGame[xBonus, yBonus] = '1';
             }
