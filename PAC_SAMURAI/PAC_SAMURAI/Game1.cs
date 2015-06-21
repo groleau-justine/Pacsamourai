@@ -89,8 +89,6 @@ namespace PAC_SAMURAI
             }else{
                 state = GameState.menuScreen;
             }
-            
-            
         }
 
         /// <summary>
@@ -134,6 +132,7 @@ namespace PAC_SAMURAI
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_droiteO"));
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_basO"));
             texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_gaucheO"));
+            texturePacSamourai.Add(Content.Load<Texture2D>("pacsamourai_mort"));
 
             //Texture mode invincible
             textureInvPacSamourai.Add(Content.Load<Texture2D>("pacsamourai_hautI"));
@@ -201,7 +200,7 @@ namespace PAC_SAMURAI
                  Initialize();
              }*/
             //Si le joueur a perdu
-            if (pacSamourai.Vies ==0)
+            if (pacSamourai.Vies == 0)
             {
                 previousState = GameState.lostScreen;
                 Initialize();
@@ -254,20 +253,33 @@ namespace PAC_SAMURAI
 
         private void UpdateGamePlay(GameTime gameTime)
         {
-  
             // Gestion du clavier
             clavier.update(gameTime);
 
             // Gestion des bonus
             timer.lancerTimerBonus(gameTime);
 
-            // Gestion du pouvoir d'invincibilité du Pacsamurai
+            // Gestion du pouvoir d'invincibilité et de la mort du Pacsamurai
 
             // Si le pacsamurai est dans un mode invincible
             if (pacSamourai.Invincible)
             {
                 // On fait appel à la fonction suivante pour savoir s'il est toujours en mode invincible
-                pacSamourai.Invincible = timer.gererTimerInvincible(gameTime);
+                pacSamourai.Invincible = pacSamourai.Timer.gererTimerInvincible(gameTime);
+            }
+            // Si le pacsamurai est mort
+            else if (pacSamourai.IsMort)
+            {
+                // On fait appel à la fonction suivante pour savoir s'il est toujours mort
+                pacSamourai.IsMort = pacSamourai.Timer.gererTimerMort(gameTime);
+                if (pacSamourai.IsMort)
+                {
+                    useMap.MapGame[pacSamourai.SonX, pacSamourai.SonY] = 'P';
+                }
+                else
+                {
+                    pacSamourai.Texture = pacSamourai.ListeTextures[pacSamourai.NumTexture];
+                }
             }
             else
             {
@@ -276,126 +288,161 @@ namespace PAC_SAMURAI
             }
 
             // Gestion de l'IA des fantômes
-            // Timer qui permet de gérer le temps entre deux actions des fantômes
-            timer.lancerTimerFantome(gameTime, fantomeBleu, fantomeRose, fantomeRouge, fantomeVert);
 
-            //Fantôme bleu
+            // Fantôme bleu
+            if (pacSamourai.FantomePeur.Contains(fantomeBleu.TypeFantome))
+            {
+                fantomeBleu.IsPeur = fantomeBleu.Timer.gererTimerPeur(gameTime);
+                fantomeBleu.choiceOfTexture();
+            }
+
             if (!fantomeBleu.IsPeur)
             {
-                if (fantomeBleu.GoFantome)
+                // Timer qui permet de gérer le temps entre deux actions des fantômes
+                if (fantomeBleu.Timer.lancerTimerFantome(gameTime))
                 {
-                    if (fantomeBleu.choixFantomeIA())
+                    if (fantomeBleu.choixFantomeIA() && !pacSamourai.IsMort)
                     {
                         if (pacSamourai.Invincible)
                         {
                             // On fait appel à la fonction suivante pour savoir s'il est toujours en mode peur
-                            fantomeBleu.IsPeur = timer.gererTimerPeur(gameTime);
+                            pacSamourai.addFantome(fantomeBleu.TypeFantome, new Point(fantomeBleu.PositionXFantome, fantomeBleu.PositionYFantome));
+                            fantomeBleu.IsPeur = fantomeBleu.Timer.gererTimerPeur(gameTime);
                             fantomeBleu.choiceOfTexture();
-                            pacSamourai.addFantome(fantomeBleu.TypeFantome);
                         }
                         else
                         {
                             pacSamourai.MortDePac = true;
                         }
                     }
-                    fantomeBleu.GoFantome = false;
                 }
             }
             else
             {
-                fantomeBleu.choiceOfTexture();
-                pacSamourai.removeFantome(fantomeBleu.TypeFantome);
+                fantomeBleu.IsPeur = fantomeBleu.Timer.gererTimerPeur(gameTime);
+                if (!fantomeBleu.IsPeur)
+                {
+                    fantomeBleu.choiceOfTexture();
+                }
             }
 
-            //Fantôme rose
+            // Fantôme rose
+            if (pacSamourai.FantomePeur.Contains(fantomeRose.TypeFantome))
+            {
+                fantomeRose.IsPeur = fantomeRose.Timer.gererTimerPeur(gameTime);
+                fantomeRose.choiceOfTexture();
+            }
+
             if (!fantomeRose.IsPeur)
             {
-                if (fantomeRose.GoFantome)
+                // Timer qui permet de gérer le temps entre deux actions des fantômes
+                if (fantomeRose.Timer.lancerTimerFantome(gameTime))
                 {
-                    if (fantomeRose.choixFantomeIA())
+                    if (fantomeRose.choixFantomeIA() && !pacSamourai.IsMort)
                     {
                         if (pacSamourai.Invincible)
                         {
                             // On fait appel à la fonction suivante pour savoir s'il est toujours en mode peur
-                            fantomeRose.IsPeur = timer.gererTimerPeur(gameTime);
+                            pacSamourai.addFantome(fantomeRose.TypeFantome, new Point(fantomeRose.PositionXFantome, fantomeRose.PositionYFantome));
+                            fantomeRose.IsPeur = fantomeRose.Timer.gererTimerPeur(gameTime);
                             fantomeRose.choiceOfTexture();
-                            pacSamourai.addFantome(fantomeRose.TypeFantome);
                         }
                         else
                         {
                             pacSamourai.MortDePac = true;
                         }
                     }
-                    fantomeRose.GoFantome = false;
                 }
             }
             else
             {
-                fantomeRose.choiceOfTexture();
-                pacSamourai.removeFantome(fantomeRose.TypeFantome);
+                fantomeRose.IsPeur = fantomeRose.Timer.gererTimerPeur(gameTime);
+                if (!fantomeRose.IsPeur)
+                {
+                    fantomeRose.choiceOfTexture();
+                }
             }
 
-            //Fantôme rouge
+            // Fantôme rouge
+            if (pacSamourai.FantomePeur.Contains(fantomeRouge.TypeFantome))
+            {
+                fantomeRouge.IsPeur = fantomeRouge.Timer.gererTimerPeur(gameTime);
+                fantomeRouge.choiceOfTexture();
+            }
+
             if (!fantomeRouge.IsPeur)
             {
-                if (fantomeRouge.GoFantome)
+                // Timer qui permet de gérer le temps entre deux actions des fantômes
+                if (fantomeRouge.Timer.lancerTimerFantome(gameTime))
                 {
-                    if (fantomeRouge.choixFantomeIA())
+                    if (fantomeRouge.choixFantomeIA() && !pacSamourai.IsMort)
                     {
                         if (pacSamourai.Invincible)
                         {
                             // On fait appel à la fonction suivante pour savoir s'il est toujours en mode peur
-                            fantomeRouge.IsPeur = timer.gererTimerPeur(gameTime);
+                            pacSamourai.addFantome(fantomeRouge.TypeFantome, new Point(fantomeRouge.PositionXFantome, fantomeRouge.PositionYFantome));
+                            fantomeRouge.IsPeur = fantomeRouge.Timer.gererTimerPeur(gameTime);
                             fantomeRouge.choiceOfTexture();
-                            pacSamourai.addFantome(fantomeRouge.TypeFantome);
                         }
                         else
                         {
                             pacSamourai.MortDePac = true;
                         }
                     }
-                    fantomeRouge.GoFantome = false;
                 }
             }
             else
             {
-                fantomeRouge.choiceOfTexture();
-                pacSamourai.removeFantome(fantomeRouge.TypeFantome);
+                fantomeRouge.IsPeur = fantomeRouge.Timer.gererTimerPeur(gameTime);
+                if (!fantomeRouge.IsPeur)
+                {
+                    fantomeRouge.choiceOfTexture();
+                }
             }
 
-            //Fantôme vert
+            // Fantôme vert
+            if (pacSamourai.FantomePeur.Contains(fantomeVert.TypeFantome))
+            {
+                fantomeVert.IsPeur = fantomeVert.Timer.gererTimerPeur(gameTime);
+                fantomeVert.choiceOfTexture();
+            }
+
             if (!fantomeVert.IsPeur)
             {
-                if (fantomeVert.GoFantome)
+                // Timer qui permet de gérer le temps entre deux actions des fantômes
+                if (fantomeVert.Timer.lancerTimerFantome(gameTime))
                 {
-                    if (fantomeVert.choixFantomeIA())
+                    if (fantomeVert.choixFantomeIA() && !pacSamourai.IsMort)
                     {
                         if (pacSamourai.Invincible)
                         {
                             // On fait appel à la fonction suivante pour savoir s'il est toujours en mode peur
-                            fantomeVert.IsPeur = timer.gererTimerPeur(gameTime);
+                            pacSamourai.addFantome(fantomeVert.TypeFantome, new Point(fantomeVert.PositionXFantome, fantomeVert.PositionYFantome));
+                            fantomeVert.IsPeur = fantomeVert.Timer.gererTimerPeur(gameTime);
                             fantomeVert.choiceOfTexture();
-                            pacSamourai.addFantome(fantomeVert.TypeFantome);
                         }
                         else
                         {
                             pacSamourai.MortDePac = true;
                         }
                     }
-                    fantomeVert.GoFantome = false;
                 }
             }
             else
             {
-                fantomeVert.choiceOfTexture();
-                pacSamourai.removeFantome(fantomeVert.TypeFantome);
+                fantomeVert.IsPeur = fantomeVert.Timer.gererTimerPeur(gameTime);
+                if (!fantomeVert.IsPeur)
+                {
+                    fantomeVert.choiceOfTexture();
+                }
             }
 
-            if (pacSamourai.MortDePac)
+            if (pacSamourai.MortDePac && !pacSamourai.IsMort)
             {
                 pacSamourai.Vies--;
                 pacSamourai.MortDePac = false;
-                pacSamourai.IsMort = timer.gererTimerMort(gameTime);
+                pacSamourai.IsMort = pacSamourai.Timer.gererTimerMort(gameTime);
+                pacSamourai.Texture = pacSamourai.ListeTextures[8];
             }
         }
 
@@ -405,7 +452,6 @@ namespace PAC_SAMURAI
             {
                 state = GameState.menuScreen;
             }
-
         }
 
         private void UpdateScoreScreen()
@@ -437,18 +483,17 @@ namespace PAC_SAMURAI
                 case GameState.wonScreen:
                     spriteBatch.Draw(Content.Load<Texture2D>("menuGagne"), GraphicsDevice.Viewport.TitleSafeArea, Color.White);
                     break;
-                 case GameState.lostScreen:
+                case GameState.lostScreen:
                     spriteBatch.Draw(Content.Load<Texture2D>("menuPerdu"), GraphicsDevice.Viewport.TitleSafeArea, Color.White);
                     break;
-                 case GameState.commandScreen:
+                case GameState.commandScreen:
                     spriteBatch.Draw(Content.Load<Texture2D>("menuCommandes"), GraphicsDevice.Viewport.TitleSafeArea, Color.White);
                     break;
-                 case GameState.scoreScreen:
+                case GameState.scoreScreen:
                     // TODO
                     break;
             }
             
-
             spriteBatch.End();
 
             base.Draw(gameTime);

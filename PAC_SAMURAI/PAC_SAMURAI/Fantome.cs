@@ -18,11 +18,12 @@ namespace PAC_SAMURAI
         private Point lastPositionFantome;
         private Point pointDep;
         private string lastMove;
-        private Boolean goFantome;
 
         private int positionXPacSamurai;
         private int positionYPacSamurai;
         private int tempsVSPacSamurai;
+
+        private Timers timer;
 
         private Map useMap;
         private char lastBonus;
@@ -52,8 +53,10 @@ namespace PAC_SAMURAI
             this.typeFantome = typeFantome;
             this.texture = base.ListeTextures[0];
             this.lastMove = null;
-            this.goFantome = false;
+
+            this.timer = new Timers(useMap);
             this.useMap = useMap;
+
             this.bonus = ' ';
 
             mAJPositions();
@@ -102,10 +105,10 @@ namespace PAC_SAMURAI
             set { isPeur = value; }
         }
 
-        public Boolean GoFantome
+        public Timers Timer
         {
-            get { return goFantome; }
-            set { goFantome = value; }
+            get { return timer; }
+            set { timer = value; }
         }
 
         //Fonction de modification du visuel des fantômes
@@ -146,7 +149,6 @@ namespace PAC_SAMURAI
         //Fonction contenant l'algorithme de calcul du temps nécessaire avant de rejoindre le PacSamurai
         private void algoDistanceFVSP()
         {
-
             //Calcul de base sans prendre en compte les murs...
             tempsVSPacSamurai = Math.Abs(positionXPacSamurai - positionXFantome) + Math.Abs(positionYPacSamurai - positionYFantome);
         }
@@ -227,6 +229,7 @@ namespace PAC_SAMURAI
                 if (lastBonus != ' ')
                 {
                     useMap.MapGame[lastPositionFantome.X, lastPositionFantome.Y] = lastBonus;
+                    lastBonus = ' ';
                 }
 
                 //Remise en place du bonus
@@ -302,9 +305,10 @@ namespace PAC_SAMURAI
                         if (useMap.MapGame[positionXFantome, positionYFantome] == 'P')
                         {
                             mortDePac = true;
+
                         }
                     }
-                    
+
                     useMap.MapGame[positionXFantome, positionYFantome] = typeFantome;
                 }
             }

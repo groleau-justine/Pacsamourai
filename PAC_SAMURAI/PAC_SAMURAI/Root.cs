@@ -35,6 +35,7 @@ namespace PAC_SAMURAI
             get { return duree; }
             set { duree = value; }
         }
+
         public void ajouterPoint(Point point)
         {
             listPoint.Add(point);

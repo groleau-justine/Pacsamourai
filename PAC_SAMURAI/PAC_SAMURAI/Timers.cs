@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PAC_SAMURAI
 {
-    class Timers
+    public class Timers
     {
         private float timer;
         private float timerMortPac;
@@ -19,7 +19,10 @@ namespace PAC_SAMURAI
         public Timers(Map map)
         {
             timer = 0f;
+            timerMortPac = 0f;
             timerBonus = 0f;
+            timerFantome = 0f;
+            timerPeur = 0f;
             bonus = false;
             this.map = map;
         }
@@ -79,7 +82,7 @@ namespace PAC_SAMURAI
          * Elle incrémente le timer et renvoie un boolean pour indiquer s'il 
          * est écoulé ou pas.
          */
-        public void lancerTimerFantome(GameTime gameTime, Fantome fantomeBleu, Fantome fantomeRose, Fantome fantomeRouge, Fantome fantomeVert)
+        public Boolean lancerTimerFantome(GameTime gameTime)
         {
             float timeElapsed = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             timerFantome += timeElapsed;
@@ -87,10 +90,11 @@ namespace PAC_SAMURAI
             if (timerFantome > 500)
             {
                 timerFantome = 0f;
-                fantomeBleu.GoFantome = true;
-                fantomeRose.GoFantome = true;
-                fantomeRouge.GoFantome = true;
-                fantomeVert.GoFantome = true;
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

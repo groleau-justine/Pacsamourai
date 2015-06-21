@@ -11,7 +11,6 @@ namespace PAC_SAMURAI
     //Classe contenant les méthodes afin de créer et d'afficher la MAP
     public class Map
     {
-        
         private int level;
         private String nameLevel;
 
@@ -103,7 +102,6 @@ namespace PAC_SAMURAI
             }
         }
 
-
         //Affichage des bonus
         public void drawBonus(Random aleatoire)
         {
@@ -144,12 +142,10 @@ namespace PAC_SAMURAI
         //Remove des bonus
         public void removeBonus()
         {
-            if(bonus){
+            if(bonus)
+            {
                 this.MapGame[xBonus, yBonus] = '1';
             }
-            
         }
-
-        
     }
 }

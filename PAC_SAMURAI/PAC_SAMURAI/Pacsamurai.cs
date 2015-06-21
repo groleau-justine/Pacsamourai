@@ -15,6 +15,7 @@ namespace PAC_SAMURAI
         private int sonY;
         private int sesVies;
         private int score;
+        private int lastPalier;
         private Boolean invincible;
         private Boolean mortDePac;
         private Boolean isMort;
@@ -23,6 +24,7 @@ namespace PAC_SAMURAI
         private Timers timer;
 
         private List<char> fantomePeur;
+        private List<Point> posFantomePeur;
         private Point lastPosition;
         private char lastFantome;
 
@@ -30,6 +32,7 @@ namespace PAC_SAMURAI
             : base(listeTextures, listeTexturesInvincible)
         {
             this.score = 0;
+            this.lastPalier = 0;
             this.sesVies = 3;
 
             this.map = map;
@@ -51,6 +54,7 @@ namespace PAC_SAMURAI
             this.invincible = false;
 
             fantomePeur = new List<char>();
+            posFantomePeur = new List<Point>();
             lastPosition = new Point(0, 0);
             lastFantome = ' ';
         }
@@ -109,23 +113,36 @@ namespace PAC_SAMURAI
             set { isMort = value; }
         }
 
+        public Timers Timer
+        {
+            get { return timer; }
+            set { timer = value; }
+        }
+
         public List<char> FantomePeur
         {
             get { return fantomePeur; }
             set { fantomePeur = value; }
         }
 
+        public List<Point> PosFantomePeur
+        {
+            get { return posFantomePeur; }
+            set { posFantomePeur = value; }
+        }
 
         //Ajouter un fantôme dans la liste de ceux qui sont dans l'état "Peur"
-        public void addFantome(char typeFantome)
+        public void addFantome(char typeFantome, Point posFantomePeur)
         {
             fantomePeur.Add(typeFantome);
+            this.posFantomePeur.Add(posFantomePeur);
         }
 
         //Enlever un fantôme de la liste de ceux qui sont dans l'état "Peur"
-        public void removeFantome(char typeFantome)
+        public void removeFantome(char typeFantome, Point posFantomePeur)
         {
             fantomePeur.Remove(typeFantome);
+            this.posFantomePeur.Remove(posFantomePeur);
         }
 
         /** Méthode qui modifie le X de pacsamurai (la ligne où il se trouve)
@@ -215,7 +232,7 @@ namespace PAC_SAMURAI
          */
         public void setPosition(int x, int y, GameTime gameTime)
         {
-            if (positionCoherente(sonX + x, sonY + y, gameTime) == true && map.MapGame[sonX + x, sonY + y] != '0')
+            if (positionCoherente(sonX + x, sonY + y, gameTime) == true && map.MapGame[sonX + x, sonY + y] != '0' && !isMort)
             {
                 char caseMap = map.MapGame[sonX + x, sonY + y];
                 List<Texture2D> listeTextures;
@@ -225,10 +242,20 @@ namespace PAC_SAMURAI
                     // Gestion du score incrémenté par 10 (sushi)
                     case 'S':
                         score += 10;
+                        if (score >= lastPalier + 1000)
+                        {
+                            sesVies++;
+                            lastPalier += 1000;
+                        }
                         break;
                     // Gestion du score lié aux bonus
                     case 'B':
                         score += 100;
+                        if (score >= lastPalier + 1000)
+                        {
+                            sesVies++;
+                            lastPalier += 1000;
+                        }
                         break;
                     // Gestion du pouvoir invincible déclenché par les makis
                     // Si le pacsamurai se dirige vers un maki
@@ -255,28 +282,41 @@ namespace PAC_SAMURAI
                     lastFantome = ' ';
                 }
 
+                while (fantomePeur.Count != 0)
+                {
+                    map.MapGame[posFantomePeur[0].X, posFantomePeur[0].Y] = fantomePeur[0];
+                    removeFantome(fantomePeur[0], posFantomePeur[0]);
+                }
+
                 if (invincible == true)
                 {
                     listeTextures = base.ListeTexturesInvincible;
                     // Gérer les transitions avec les fantômes
                     if (notIn.Contains(caseMap))
                     {
-                        fantomePeur.Add(caseMap);
+                        addFantome(caseMap, new Point(sonX + x, sonY + y));
                     }
                 }
                 else
                 {
                     listeTextures = base.ListeTextures;
                     // Gérer les transitions avec les fantômes
-                    if (notIn.Contains(caseMap))
+                    if (notIn.Contains(caseMap) && !isMort)
                     {
-                        mortDePac = true;
+                        sesVies--;
+                        mortDePac = false;
+                        isMort = Timer.gererTimerMort(gameTime);
                     }
                 }
 
                 //On modifie ses coordonnées
                 setSonX(x, caseMap, listeTextures);
-                setSonY(y, caseMap, listeTextures);              
+                setSonY(y, caseMap, listeTextures);
+
+                if (isMort)
+                {
+                    Texture = ListeTextures[8];
+                }
 
                 //On déplace Pacsamourai à ses nouvelles coordonnées
                 map.MapGame[sonX, sonY] = 'P';
